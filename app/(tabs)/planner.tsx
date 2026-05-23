@@ -1,14 +1,14 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
 import { AppHeader } from '@/src/components/AppHeader';
 
 export default function PlannerScreen() {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <AppHeader welcomeText="Your Week" />
       <View style={styles.content}>
         <Text>Planner</Text>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

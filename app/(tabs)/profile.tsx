@@ -1,14 +1,14 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
 import { AppHeader } from '@/src/components/AppHeader';
 
 export default function ProfileScreen() {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <AppHeader welcomeText="Your Profile" />
       <View style={styles.content}>
         <Text>Profile</Text>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 

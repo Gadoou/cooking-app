@@ -1,14 +1,14 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView } from 'react-native';
 import { AppHeader } from '@/src/components/AppHeader';
 
 export default function MyRecipesScreen() {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <AppHeader welcomeText="Your Favorites" />
       <View style={styles.content}>
         <Text>My Recipes</Text>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
