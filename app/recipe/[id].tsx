@@ -55,6 +55,10 @@ export default function RecipeDetailScreen() {
     setNewReview('');
   };
 
+  const handleAddToPlan = () => {
+    Alert.alert("Added to Plan", `${recipe.title} has been added to your Weekly Plan.`);
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Stack.Screen 
@@ -68,15 +72,6 @@ export default function RecipeDetailScreen() {
               <Ionicons name="chevron-back" size={28} color="#000" />
             </TouchableOpacity>
           ),
-          headerRight: () => (
-            <TouchableOpacity onPress={() => toggleLike(recipe.id)} style={{ marginRight: 15 }}>
-              <Ionicons 
-                name={isLiked(recipe.id) ? "heart" : "heart-outline"} 
-                size={26} 
-                color={isLiked(recipe.id) ? "#FF6347" : "#000"} 
-              />
-            </TouchableOpacity>
-          )
         }} 
       />
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -105,6 +100,31 @@ export default function RecipeDetailScreen() {
 
           <View style={styles.placeholderImage}>
             <Ionicons name="restaurant-outline" size={80} color="#D4AF37" />
+          </View>
+
+          {/* Action Buttons: Like & Add to Plan */}
+          <View style={styles.actionRow}>
+            <TouchableOpacity 
+              style={[styles.actionButton, styles.likeButton]} 
+              onPress={() => toggleLike(recipe.id)}
+            >
+              <Ionicons 
+                name={isLiked(recipe.id) ? "heart" : "heart-outline"} 
+                size={22} 
+                color={isLiked(recipe.id) ? "#fff" : "#FF6347"} 
+              />
+              <Text style={[styles.actionButtonText, { color: isLiked(recipe.id) ? "#fff" : "#FF6347" }]}>
+                {isLiked(recipe.id) ? "Liked" : "Like"}
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={[styles.actionButton, styles.planButton]} 
+              onPress={handleAddToPlan}
+            >
+              <Ionicons name="add-circle-outline" size={22} color="#fff" />
+              <Text style={styles.actionButtonText}>Weekly Plan</Text>
+            </TouchableOpacity>
           </View>
 
           <View style={styles.section}>
@@ -291,6 +311,34 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 25,
+  },
+  actionRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 25,
+  },
+  actionButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    borderRadius: 12,
+    marginHorizontal: 5,
+  },
+  likeButton: {
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#FF6347',
+  },
+  planButton: {
+    backgroundColor: '#FF6347',
+  },
+  actionButtonText: {
+    marginLeft: 8,
+    fontWeight: 'bold',
+    fontSize: 14,
+    color: '#fff'
   },
   section: {
     marginBottom: 30,
