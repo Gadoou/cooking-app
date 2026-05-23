@@ -68,7 +68,16 @@ export default function RecipeDetailScreen() {
           headerStyle: { backgroundColor: '#fff' },
           headerTintColor: '#000',
           headerLeft: () => (
-            <TouchableOpacity onPress={() => router.back()} style={{ marginLeft: 10 }}>
+            <TouchableOpacity 
+              onPress={() => router.back()} 
+              style={{ 
+                width: 40, 
+                height: 40, 
+                justifyContent: 'center', 
+                alignItems: 'center',
+                marginLeft: 5
+              }}
+            >
               <Ionicons name="chevron-back" size={28} color="#000" />
             </TouchableOpacity>
           ),
