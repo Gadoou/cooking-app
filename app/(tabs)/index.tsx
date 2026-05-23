@@ -73,7 +73,7 @@ export default function HomeScreen() {
         keyExtractor={(item) => item.id}
         numColumns={2}
         renderItem={({ item }) => (
-          <RecipeCard recipe={item} onPress={() => {}} />
+          <RecipeCard recipe={item} />
         )}
         contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
