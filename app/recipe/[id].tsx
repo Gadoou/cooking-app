@@ -102,7 +102,6 @@ export default function RecipeDetailScreen() {
             <Ionicons name="restaurant-outline" size={80} color="#D4AF37" />
           </View>
 
-          {/* Action Buttons: Like & Add to Plan */}
           <View style={styles.actionRow}>
             <TouchableOpacity 
               style={[styles.actionButton, styles.likeButton]} 
@@ -111,9 +110,9 @@ export default function RecipeDetailScreen() {
               <Ionicons 
                 name={isLiked(recipe.id) ? "heart" : "heart-outline"} 
                 size={22} 
-                color={isLiked(recipe.id) ? "#fff" : "#FF6347"} 
+                color="#FF6347" 
               />
-              <Text style={[styles.actionButtonText, { color: isLiked(recipe.id) ? "#fff" : "#FF6347" }]}>
+              <Text style={[styles.actionButtonText, { color: "#FF6347" }]}>
                 {isLiked(recipe.id) ? "Liked" : "Like"}
               </Text>
             </TouchableOpacity>
