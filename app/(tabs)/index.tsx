@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
-import { StyleSheet, TextInput, ScrollView, FlatList, View, Text } from 'react-native';
+import { StyleSheet, TextInput, FlatList, View, Text, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { MOCK_RECIPES } from '@/src/data/mockRecipes';
 import { CategoryButton } from '@/src/components/CategoryButton';
 import { RecipeCard } from '@/src/components/RecipeCard';
+import { AppHeader } from '@/src/components/AppHeader';
 
 const CATEGORIES = [
-  { id: 'quick', label: 'Quick Meals' },
-  { id: 'cost', label: 'Cost Friendly' },
-  { id: 'group', label: 'Big Groups' },
-  { id: 'all', label: 'All Recipes' },
-  { id: 'custom', label: 'Custom Filter' }
+  { id: 'quick', label: 'Quick', icon: 'timer-outline' },
+  { id: 'cost', label: 'Budget', icon: 'cash-outline' },
+  { id: 'group', label: 'Groups', icon: 'people-outline' },
+  { id: 'all', label: 'All', icon: 'grid-outline' },
+  { id: 'custom', label: 'Filter', icon: 'options-outline' }
 ];
 
 export default function HomeScreen() {
@@ -30,30 +31,39 @@ export default function HomeScreen() {
   }).sort((a, b) => b.likes - a.likes).slice(0, 4);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <AppHeader welcomeText="Welcome, Foodie!" />
+      
+      <View style={styles.titleContainer}>
+        <Text style={styles.mainTitle}>What do you wanna cook today?</Text>
+        <Text style={styles.subTitle}>the choice that matches your time and budget</Text>
+      </View>
+
       {/* Search Bar */}
       <View style={styles.searchContainer}>
         <Ionicons name="search" size={20} color="#666" style={styles.searchIcon} />
         <TextInput
           style={styles.searchInput}
-          placeholder="Search by recipe or ingredient"
+          placeholder="search by recipe or ingredient"
+          placeholderTextColor="#999"
           value={searchQuery}
           onChangeText={setSearchQuery}
         />
       </View>
 
-      {/* Category Filters */}
-      <View style={styles.filtersContainer}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filtersContent}>
+      {/* Category Filters - No Scrolling */}
+      <View style={styles.filtersWrapper}>
+        <View style={styles.filtersRow}>
           {CATEGORIES.map(cat => (
             <CategoryButton
               key={cat.id}
               label={cat.label}
+              iconName={cat.icon}
               active={activeFilter === cat.id}
               onPress={() => setActiveFilter(cat.id)}
             />
           ))}
-        </ScrollView>
+        </View>
       </View>
 
       {/* Suggested Recipes */}
@@ -66,8 +76,9 @@ export default function HomeScreen() {
           <RecipeCard recipe={item} onPress={() => {}} />
         )}
         contentContainerStyle={styles.listContent}
+        showsVerticalScrollIndicator={false}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -76,37 +87,56 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  titleContainer: {
+    paddingHorizontal: 16,
+    marginTop: 15,
+    marginBottom: 5
+  },
+  mainTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#000',
+    lineHeight: 30
+  },
+  subTitle: {
+    fontSize: 14,
+    color: '#888',
+    marginTop: 4
+  },
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#f5f5f5',
-    margin: 16,
+    marginHorizontal: 16,
+    marginVertical: 15,
     paddingHorizontal: 12,
     borderRadius: 12,
-    height: 50
+    height: 45
   },
   searchIcon: {
     marginRight: 8
   },
   searchInput: {
     flex: 1,
-    fontSize: 16
+    fontSize: 15,
+    color: '#000'
   },
-  filtersContainer: {
-    height: 60,
-    marginBottom: 16
+  filtersWrapper: {
+    paddingHorizontal: 12,
+    marginBottom: 20
   },
-  filtersContent: {
-    paddingHorizontal: 16,
-    alignItems: 'center'
+  filtersRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   sectionTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     marginHorizontal: 16,
-    marginBottom: 12
+    marginBottom: 10
   },
   listContent: {
-    paddingHorizontal: 8
+    paddingHorizontal: 8,
+    paddingBottom: 20
   }
 });

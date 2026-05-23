@@ -1,14 +1,13 @@
-import { StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import { AppHeader } from '@/src/components/AppHeader';
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
-
-export default function TabTwoScreen() {
+export default function MyRecipesScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>My Recipes</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/two.tsx" />
+      <AppHeader welcomeText="Your Favorites" />
+      <View style={styles.content}>
+        <Text>My Recipes</Text>
+      </View>
     </View>
   );
 }
@@ -16,16 +15,11 @@ export default function TabTwoScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  content: {
+    flex: 1,
     justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+    alignItems: 'center'
+  }
 });
