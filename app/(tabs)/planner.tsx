@@ -15,7 +15,7 @@ export default function PlannerScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5DC',
+    backgroundColor: '#FFFFFF',
   },
   content: {
     flex: 1,
