@@ -11,7 +11,7 @@ interface CategoryButtonProps {
 export const CategoryButton = ({ label, onPress, active, iconName }: CategoryButtonProps) => (
   <TouchableOpacity style={[styles.btn, active && styles.active]} onPress={onPress}>
     <View style={styles.iconPlaceholder}>
-      <Ionicons name={iconName || 'restaurant-outline'} size={20} color={active ? '#fff' : '#666'} />
+      <Ionicons name={iconName || 'restaurant-outline'} size={20} color={active ? '#fff' : '#D4AF37'} />
     </View>
     <Text style={[active ? styles.activeText : styles.text]} numberOfLines={1}>{label}</Text>
   </TouchableOpacity>

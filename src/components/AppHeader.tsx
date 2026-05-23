@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   header: {
     paddingHorizontal: 16,
     paddingTop: 10,
-    backgroundColor: '#fff'
+    backgroundColor: '#FAF9F6'
   },
   logoContainer: {
     flexDirection: 'row',
