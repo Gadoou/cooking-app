@@ -1,29 +1,40 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { Recipe } from '../types';
 
 interface RecipeCardProps {
   recipe: Recipe;
-  onPress: () => void;
 }
 
-export const RecipeCard = ({ recipe, onPress }: RecipeCardProps) => (
-  <TouchableOpacity style={styles.card} onPress={onPress}>
-    <View style={styles.imagePlaceholder}>
-      <Ionicons name="fast-food-outline" size={40} color="#ccc" />
-    </View>
-    <View style={styles.info}>
-      <Text style={styles.title} numberOfLines={1}>{recipe.title}</Text>
-      <View style={styles.footer}>
-        <View style={styles.stat}>
-          <Ionicons name="heart" size={14} color="#FF6347" />
-          <Text style={styles.statText}>{recipe.likes}</Text>
-        </View>
-        <Text style={styles.statText}>{recipe.cookingTime}m</Text>
+export const RecipeCard = ({ recipe }: RecipeCardProps) => {
+  const router = useRouter();
+
+  const handlePress = () => {
+    router.push({
+      pathname: '/recipe/[id]',
+      params: { id: recipe.id }
+    });
+  };
+
+  return (
+    <TouchableOpacity style={styles.card} onPress={handlePress}>
+      <View style={styles.imagePlaceholder}>
+        <Ionicons name="fast-food-outline" size={40} color="#D4AF37" />
       </View>
-    </View>
-  </TouchableOpacity>
-);
+      <View style={styles.info}>
+        <Text style={styles.title} numberOfLines={1}>{recipe.title}</Text>
+        <View style={styles.footer}>
+          <View style={styles.stat}>
+            <Ionicons name="heart" size={14} color="#FF6347" />
+            <Text style={styles.statText}>{recipe.likes}</Text>
+          </View>
+          <Text style={styles.statText}>{recipe.cookingTime}m</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  );
+};
 
 const styles = StyleSheet.create({
   card: {
@@ -40,7 +51,7 @@ const styles = StyleSheet.create({
   },
   imagePlaceholder: {
     height: 120,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: '#fdfdfd',
     justifyContent: 'center',
     alignItems: 'center'
   },
