@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, SafeAreaView, TouchableOpacity, Alert, TextInput } from 'react-native';
 import { useLocalSearchParams, Stack, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { MOCK_RECIPES } from '@/src/data/mockRecipes';
@@ -12,8 +12,11 @@ export default function RecipeDetailScreen() {
   const { isLiked, toggleLike } = useAppContext();
   const recipe = MOCK_RECIPES.find(r => r.id === id);
 
-  // Local state for "scratch-out" feature
+  // Local state
   const [ownedIngredients, setOwnedIngredients] = useState<string[]>([]);
+  const [activeTab, setActiveTab] = useState<'ingredients' | 'steps' | 'reviews'>('ingredients');
+  const [newReview, setNewReview] = useState('');
+  const [userRating, setUserRating] = useState(5);
 
   if (!recipe) {
     return (
@@ -41,6 +44,15 @@ export default function RecipeDetailScreen() {
       "Order Placed", 
       `Successfully ordered ${missingIngredients.length} items. Total: $${totalCost.toFixed(2)}`
     );
+  };
+
+  const handleSubmitReview = () => {
+    if (newReview.trim() === '') {
+      Alert.alert("Error", "Please write a comment first.");
+      return;
+    }
+    Alert.alert("Review Submitted", "Thank you for your feedback!");
+    setNewReview('');
   };
 
   return (
@@ -100,37 +112,138 @@ export default function RecipeDetailScreen() {
             <Text style={styles.overview}>{recipe.overview}</Text>
           </View>
 
-          <View style={styles.section}>
-            <View style={styles.sectionHeader}>
-              <Text style={styles.sectionTitle}>Ingredients</Text>
-              <Text style={styles.missingCount}>
-                {missingIngredients.length} items missing
-              </Text>
-            </View>
-            {recipe.ingredients.map((ingredient, index) => (
-              <IngredientItem
-                key={index}
-                name={ingredient.name}
-                quantity={ingredient.quantity}
-                price={ingredient.price}
-                isOwned={ownedIngredients.includes(ingredient.name)}
-                onToggle={() => toggleIngredient(ingredient.name)}
-              />
+          {/* Tab Switcher */}
+          <View style={styles.tabContainer}>
+            {['ingredients', 'steps', 'reviews'].map((tab) => (
+              <TouchableOpacity 
+                key={tab}
+                style={[styles.tabButton, activeTab === tab && styles.activeTabButton]} 
+                onPress={() => setActiveTab(tab as any)}
+              >
+                <Text style={[styles.tabText, activeTab === tab && styles.activeTabText]}>
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </Text>
+              </TouchableOpacity>
             ))}
           </View>
+
+          {/* Conditional Content Rendering */}
+          {activeTab === 'ingredients' && (
+            <View style={styles.section}>
+              <View style={styles.sectionHeader}>
+                <Text style={styles.sectionTitle}>Ingredients Checklist</Text>
+                <Text style={styles.missingCount}>
+                  {missingIngredients.length} missing
+                </Text>
+              </View>
+              {recipe.ingredients.map((ingredient, index) => (
+                <IngredientItem
+                  key={index}
+                  name={ingredient.name}
+                  quantity={ingredient.quantity}
+                  price={ingredient.price}
+                  isOwned={ownedIngredients.includes(ingredient.name)}
+                  onToggle={() => toggleIngredient(ingredient.name)}
+                />
+              ))}
+            </View>
+          )}
+
+          {activeTab === 'steps' && (
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Cooking Steps</Text>
+              {recipe.stages.map((stage, index) => (
+                <View key={stage.id} style={styles.stepItem}>
+                  <View style={styles.stepNumber}>
+                    <Text style={styles.stepNumberText}>{index + 1}</Text>
+                  </View>
+                  <View style={styles.stepContent}>
+                    <Text style={styles.stepDescription}>{stage.textDescription}</Text>
+                    <Text style={styles.stepTime}>{stage.timeNeeded} mins</Text>
+                  </View>
+                </View>
+              ))}
+              <TouchableOpacity 
+                style={styles.startCookingButton}
+                onPress={() => Alert.alert("Coming Soon", "Full screen cooking mode will be available in Phase 3!")}
+              >
+                <Ionicons name="play-circle" size={24} color="#fff" />
+                <Text style={styles.startCookingText}>Start Guided Cooking</Text>
+              </TouchableOpacity>
+            </View>
+          )}
+
+          {activeTab === 'reviews' && (
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>Community Reviews</Text>
+              
+              {/* Write a Review Section */}
+              <View style={styles.writeReviewContainer}>
+                <Text style={styles.subSectionTitle}>Rate this recipe</Text>
+                <View style={styles.ratingRow}>
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <TouchableOpacity key={star} onPress={() => setUserRating(star)}>
+                      <Ionicons 
+                        name={star <= userRating ? "star" : "star-outline"} 
+                        size={30} 
+                        color="#D4AF37" 
+                      />
+                    </TouchableOpacity>
+                  ))}
+                </View>
+                <TextInput
+                  style={styles.reviewInput}
+                  placeholder="Share your experience..."
+                  multiline
+                  value={newReview}
+                  onChangeText={setNewReview}
+                />
+                <TouchableOpacity style={styles.submitButton} onPress={handleSubmitReview}>
+                  <Text style={styles.submitButtonText}>Submit Review</Text>
+                </TouchableOpacity>
+              </View>
+
+              {/* Review List */}
+              {recipe.reviews.length > 0 ? (
+                recipe.reviews.map((review) => (
+                  <View key={review.id} style={styles.reviewItem}>
+                    <View style={styles.reviewHeader}>
+                      <Text style={styles.userName}>{review.user}</Text>
+                      <View style={styles.ratingStars}>
+                        {[...Array(5)].map((_, i) => (
+                          <Ionicons 
+                            key={i} 
+                            name={i < review.rating ? "star" : "star-outline"} 
+                            size={14} 
+                            color="#D4AF37" 
+                          />
+                        ))}
+                      </View>
+                    </View>
+                    <Text style={styles.reviewDate}>{review.date}</Text>
+                    <Text style={styles.reviewComment}>{review.comment}</Text>
+                  </View>
+                ))
+              ) : (
+                <Text style={styles.noReviews}>No reviews yet. Be the first!</Text>
+              )}
+            </View>
+          )}
         </View>
       </ScrollView>
 
-      {/* Cart Footer */}
-      <View style={styles.footer}>
-        <View style={styles.footerInfo}>
-          <Text style={styles.totalLabel}>Missing Total:</Text>
-          <Text style={styles.totalPrice}>${totalCost.toFixed(2)}</Text>
+      {/* Cart Footer - Only show if Ingredients tab is active */}
+      {activeTab === 'ingredients' && (
+        <View style={styles.footer}>
+          <View style={styles.footerInfo}>
+            <Text style={styles.totalLabel}>Missing Total:</Text>
+            <Text style={styles.totalPrice}>${totalCost.toFixed(2)}</Text>
+          </View>
+          <TouchableOpacity style={styles.orderButton} onPress={handleOrder}>
+            <Text style={styles.orderButtonText}>Order Missing Items</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.orderButton} onPress={handleOrder}>
-          <Text style={styles.orderButtonText}>Order Missing Items</Text>
-        </TouchableOpacity>
-      </View>
+      )}
     </SafeAreaView>
   );
 }
@@ -142,7 +255,7 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 20,
-    paddingBottom: 100, // Space for footer
+    paddingBottom: 120, // Extra space for footer
   },
   title: {
     fontSize: 28,
@@ -193,6 +306,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#000',
   },
+  subSectionTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 10,
+    color: '#333',
+  },
   missingCount: {
     fontSize: 14,
     color: '#FF6347',
@@ -202,6 +321,149 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 24,
     color: '#444',
+  },
+  tabContainer: {
+    flexDirection: 'row',
+    marginBottom: 25,
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
+  },
+  tabButton: {
+    flex: 1,
+    paddingVertical: 12,
+    alignItems: 'center',
+  },
+  activeTabButton: {
+    borderBottomWidth: 3,
+    borderBottomColor: '#FF6347',
+  },
+  tabText: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#999',
+  },
+  activeTabText: {
+    color: '#FF6347',
+  },
+  stepItem: {
+    flexDirection: 'row',
+    marginBottom: 20,
+    marginTop: 10
+  },
+  stepNumber: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    backgroundColor: '#FAF9F6',
+    borderWidth: 1,
+    borderColor: '#D4AF37',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 15,
+  },
+  stepNumberText: {
+    color: '#D4AF37',
+    fontWeight: 'bold',
+    fontSize: 14
+  },
+  stepContent: {
+    flex: 1,
+  },
+  stepDescription: {
+    fontSize: 16,
+    color: '#444',
+    lineHeight: 22,
+    marginBottom: 4,
+  },
+  stepTime: {
+    fontSize: 12,
+    color: '#999',
+    fontWeight: '600',
+  },
+  startCookingButton: {
+    backgroundColor: '#D4AF37',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 16,
+    borderRadius: 12,
+    marginTop: 20,
+  },
+  startCookingText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    marginLeft: 8,
+    fontSize: 16,
+  },
+  writeReviewContainer: {
+    backgroundColor: '#fdfdfd',
+    padding: 16,
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: '#f0f0f0',
+    marginBottom: 25,
+    marginTop: 10
+  },
+  ratingRow: {
+    flexDirection: 'row',
+    marginBottom: 15
+  },
+  reviewInput: {
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#eee',
+    borderRadius: 10,
+    padding: 12,
+    height: 80,
+    textAlignVertical: 'top',
+    fontSize: 15,
+    marginBottom: 15
+  },
+  submitButton: {
+    backgroundColor: '#FF6347',
+    paddingVertical: 12,
+    borderRadius: 10,
+    alignItems: 'center'
+  },
+  submitButtonText: {
+    color: '#fff',
+    fontWeight: 'bold'
+  },
+  reviewItem: {
+    marginBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f0f0f0',
+    paddingBottom: 15
+  },
+  reviewHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 4
+  },
+  userName: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: '#333'
+  },
+  ratingStars: {
+    flexDirection: 'row'
+  },
+  reviewDate: {
+    fontSize: 12,
+    color: '#999',
+    marginBottom: 8
+  },
+  reviewComment: {
+    fontSize: 15,
+    color: '#555',
+    lineHeight: 20
+  },
+  noReviews: {
+    textAlign: 'center',
+    color: '#999',
+    marginTop: 20,
+    fontStyle: 'italic'
   },
   footer: {
     position: 'absolute',
