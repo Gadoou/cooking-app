@@ -39,7 +39,7 @@ export default function MyRecipesScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#F5F5F0',
   },
   content: {
     flex: 1,

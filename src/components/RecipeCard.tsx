@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Recipe } from '../types';
@@ -20,7 +20,11 @@ export const RecipeCard = ({ recipe }: RecipeCardProps) => {
   return (
     <TouchableOpacity style={styles.card} onPress={handlePress}>
       <View style={styles.imagePlaceholder}>
-        <Ionicons name="fast-food-outline" size={40} color="#D4AF37" />
+        {recipe.image ? (
+          <Image source={recipe.image} style={styles.recipeImage} />
+        ) : (
+          <Ionicons name="fast-food-outline" size={40} color="#D4AF37" />
+        )}
       </View>
       <View style={styles.info}>
         <Text style={styles.title} numberOfLines={1}>{recipe.title}</Text>
@@ -38,7 +42,7 @@ export const RecipeCard = ({ recipe }: RecipeCardProps) => {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: '#F5F5F0',
     borderRadius: 12,
     margin: 8,
     flex: 1,
@@ -54,6 +58,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#fdfdfd',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  recipeImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover'
   },
   info: {
     padding: 10

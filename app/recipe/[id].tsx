@@ -88,7 +88,7 @@ export default function RecipeDetailScreen() {
         options={{ 
           title: 'Recipe Details',
           headerShown: true,
-          headerStyle: { backgroundColor: '#fff' },
+          headerStyle: { backgroundColor: '#F5F5F0' },
           headerTintColor: '#000',
           headerLeft: () => (
             <TouchableOpacity 
@@ -329,7 +329,7 @@ export default function RecipeDetailScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#F5F5F0',
   },
   content: {
     padding: 20,

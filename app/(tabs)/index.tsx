@@ -5,6 +5,7 @@ import { MOCK_RECIPES } from '@/src/data/mockRecipes';
 import { CategoryButton } from '@/src/components/CategoryButton';
 import { RecipeCard } from '@/src/components/RecipeCard';
 import { AppHeader } from '@/src/components/AppHeader';
+import { FilterModal, FilterState } from '@/src/components/FilterModal';
 
 const CATEGORIES = [
   { id: 'quick', label: 'Quick', icon: 'timer-outline' },
@@ -14,21 +15,84 @@ const CATEGORIES = [
   { id: 'custom', label: 'Filter', icon: 'options-outline' }
 ];
 
+const INITIAL_FILTERS: FilterState = {
+  budget: 'any',
+  time: 'any',
+  guests: 1,
+  diet: 'all',
+  origin: 'all',
+  ingredients: []
+};
+
 export default function HomeScreen() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeFilter, setActiveFilter] = useState('all');
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
+  const [activeFilters, setActiveFilters] = useState<FilterState>(INITIAL_FILTERS);
 
   const filteredRecipes = MOCK_RECIPES.filter(recipe => {
+    // Search Query Logic
     const matchesSearch = recipe.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           recipe.ingredients.some(i => i.name.toLowerCase().includes(searchQuery.toLowerCase()));
     
-    if (activeFilter === 'all') return matchesSearch;
-    if (activeFilter === 'quick') return matchesSearch && recipe.cookingTime < 30;
-    if (activeFilter === 'cost') return matchesSearch && recipe.cost < 15;
-    if (activeFilter === 'group') return matchesSearch && recipe.dietStyle === 'group';
-    
-    return matchesSearch;
+    if (!matchesSearch) return false;
+
+    // Budget Filter
+    if (activeFilters.budget !== 'any') {
+      if (activeFilters.budget === 'under100' && recipe.cost >= 100) return false;
+      if (activeFilters.budget === '100-200' && (recipe.cost < 100 || recipe.cost > 200)) return false;
+      if (activeFilters.budget === 'over200' && recipe.cost <= 200) return false;
+    }
+
+    // Time Filter
+    if (activeFilters.time !== 'any') {
+      if (activeFilters.time === 'under15' && recipe.cookingTime >= 15) return false;
+      if (activeFilters.time === '15-30' && (recipe.cookingTime < 15 || recipe.cookingTime > 30)) return false;
+      if (activeFilters.time === 'over45' && recipe.cookingTime <= 45) return false;
+    }
+
+    // Diet Filter
+    if (activeFilters.diet !== 'all') {
+      if (recipe.dietStyle.toLowerCase() !== activeFilters.diet.toLowerCase()) return false;
+    }
+
+    // Origin Filter
+    if (activeFilters.origin !== 'all') {
+      if (recipe.origin.toLowerCase() !== activeFilters.origin.toLowerCase()) return false;
+    }
+
+    // Ingredients Filter
+    if (activeFilters.ingredients.length > 0) {
+      const recipeIngredientNames = recipe.ingredients.map(i => i.name.toLowerCase());
+      const hasAllIngredients = activeFilters.ingredients.every(ing => 
+        recipeIngredientNames.includes(ing.toLowerCase())
+      );
+      if (!hasAllIngredients) return false;
+    }
+
+    return true;
   }).sort((a, b) => b.likes - a.likes).slice(0, 4);
+
+  const handleCategoryPress = (id: string) => {
+    if (id === 'custom') {
+      setIsFilterVisible(true);
+    } else if (id === 'all') {
+      setActiveFilters(INITIAL_FILTERS);
+    } else if (id === 'quick') {
+      setActiveFilters({ ...INITIAL_FILTERS, time: '15-30' });
+    } else if (id === 'cost') {
+      setActiveFilters({ ...INITIAL_FILTERS, budget: 'under100' });
+    } else if (id === 'group') {
+      setActiveFilters({ ...INITIAL_FILTERS, diet: 'group' });
+    }
+  };
+
+  const isCategoryActive = (id: string) => {
+    if (id === 'all') return JSON.stringify(activeFilters) === JSON.stringify(INITIAL_FILTERS);
+    if (id === 'quick') return activeFilters.time === '15-30';
+    if (id === 'cost') return activeFilters.budget === 'under100';
+    if (id === 'group') return activeFilters.diet === 'group';
+    return false;
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -59,8 +123,8 @@ export default function HomeScreen() {
               key={cat.id}
               label={cat.label}
               iconName={cat.icon}
-              active={activeFilter === cat.id}
-              onPress={() => setActiveFilter(cat.id)}
+              active={isCategoryActive(cat.id)}
+              onPress={() => handleCategoryPress(cat.id)}
             />
           ))}
         </View>
@@ -77,6 +141,12 @@ export default function HomeScreen() {
         )}
         contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
+      />
+
+      <FilterModal 
+        visible={isFilterVisible}
+        onClose={() => setIsFilterVisible(false)}
+        onApply={(filters) => setActiveFilters(filters)}
       />
     </SafeAreaView>
   );

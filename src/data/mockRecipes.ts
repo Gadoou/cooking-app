@@ -7,9 +7,9 @@ export const MOCK_RECIPES: Recipe[] = [
     overview: 'A quick 15-minute pasta dish with olive oil, chili flakes, and lots of garlic.',
     cost: 12.50,
     likes: 1200,
-    origin: 'Italy',
+    origin: 'Italian',
     cookingTime: 15,
-    dietStyle: 'lowCal',
+    dietStyle: 'Healthy',
     ingredients: [
       { name: 'Pasta', quantity: '200g', price: 2.0, imageName: 'pasta', isOwned: false },
       { name: 'Garlic', quantity: '4 cloves', price: 0.5, imageName: 'garlic', isOwned: false },
@@ -21,7 +21,7 @@ export const MOCK_RECIPES: Recipe[] = [
       { id: 'r2', user: 'Linda P.', rating: 4, comment: 'Great for a quick lunch.', date: '2026-05-21' }
     ],
     isLiked: false,
-    image: require('@/assets/images/icon.png')
+    image: require('@/assets/images/recipe-1.jpeg')
   },
   {
     id: '2',
@@ -29,9 +29,9 @@ export const MOCK_RECIPES: Recipe[] = [
     overview: 'Perfect for muscle building with grilled chicken, brown rice, and steamed broccoli.',
     cost: 18.00,
     likes: 2850,
-    origin: 'Global',
+    origin: 'Asian',
     cookingTime: 25,
-    dietStyle: 'protein',
+    dietStyle: 'Protein',
     ingredients: [
       { name: 'Chicken', quantity: '250g', price: 5.0, imageName: 'chicken', isOwned: false },
       { name: 'Rice', quantity: '100g', price: 1.0, imageName: 'rice', isOwned: false },
@@ -42,7 +42,7 @@ export const MOCK_RECIPES: Recipe[] = [
       { id: 'r3', user: 'GymRat99', rating: 5, comment: 'The best post-workout meal!', date: '2026-05-19' }
     ],
     isLiked: true,
-    image: require('@/assets/images/icon.png')
+    image: require('@/assets/images/recipe-2.jpeg')
   },
   {
     id: '3',
@@ -50,9 +50,9 @@ export const MOCK_RECIPES: Recipe[] = [
     overview: 'Refreshing and light salad with fresh veggies and a lemon dressing.',
     cost: 10.00,
     likes: 1450,
-    origin: 'South America',
+    origin: 'Indian',
     cookingTime: 20,
-    dietStyle: 'vegan',
+    dietStyle: 'Balanced',
     ingredients: [
       { name: 'Quinoa', quantity: '150g', price: 3.0, imageName: 'quinoa', isOwned: false },
       { name: 'Cucumber', quantity: '1 large', price: 1.0, imageName: 'cucumber', isOwned: false },
@@ -61,7 +61,7 @@ export const MOCK_RECIPES: Recipe[] = [
     stages: [{ id: 's3', timeNeeded: 15, videoURL: 'https://example.com/video3.mp4', textDescription: 'Mix cooked quinoa with chopped vegetables.' }],
     reviews: [],
     isLiked: false,
-    image: require('@/assets/images/icon.png')
+    image: require('@/assets/images/recipe-3.jpeg')
   },
   {
     id: '4',
@@ -69,9 +69,9 @@ export const MOCK_RECIPES: Recipe[] = [
     overview: 'A massive taco spread perfect for big gatherings and parties.',
     cost: 45.00,
     likes: 3100,
-    origin: 'Mexico',
+    origin: 'Egyptian',
     cookingTime: 40,
-    dietStyle: 'group',
+    dietStyle: 'Balanced',
     ingredients: [
       { name: 'Beef', quantity: '1kg', price: 12.0, imageName: 'beef', isOwned: false },
       { name: 'Tortillas', quantity: '24 units', price: 5.0, imageName: 'tortilla', isOwned: false },
@@ -90,9 +90,9 @@ export const MOCK_RECIPES: Recipe[] = [
     overview: 'Warm, filling, and incredibly cheap to make in large batches.',
     cost: 8.50,
     likes: 1600,
-    origin: 'Global',
+    origin: 'Egyptian',
     cookingTime: 45,
-    dietStyle: 'lowCal',
+    dietStyle: 'Healthy',
     ingredients: [
       { name: 'Lentils', quantity: '500g', price: 2.0, imageName: 'lentils', isOwned: false },
       { name: 'Carrots', quantity: '3 units', price: 1.0, imageName: 'carrots', isOwned: false },
@@ -101,7 +101,7 @@ export const MOCK_RECIPES: Recipe[] = [
     stages: [{ id: 's5', timeNeeded: 40, videoURL: 'https://example.com/video5.mp4', textDescription: 'Simmer lentils and veggies until soft.' }],
     reviews: [],
     isLiked: false,
-    image: require('@/assets/images/icon.png')
+    image: require('@/assets/images/recipe-5.jpeg')
   },
   {
     id: '6',
@@ -109,9 +109,9 @@ export const MOCK_RECIPES: Recipe[] = [
     overview: 'Premium protein and healthy fats with buttery Atlantic salmon.',
     cost: 25.00,
     likes: 2500,
-    origin: 'Nordic',
+    origin: 'Asian',
     cookingTime: 18,
-    dietStyle: 'protein',
+    dietStyle: 'Protein',
     ingredients: [
       { name: 'Salmon', quantity: '2 steaks', price: 15.0, imageName: 'salmon', isOwned: false },
       { name: 'Butter', quantity: '50g', price: 2.0, imageName: 'butter', isOwned: false },
