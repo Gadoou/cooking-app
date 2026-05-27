@@ -22,6 +22,7 @@ export default function RecipeDetailScreen() {
   const [newReview, setNewReview] = useState('');
   const [userRating, setUserRating] = useState(5);
   const [isPlanModalVisible, setIsPlanModalVisible] = useState(false);
+  const [servingSize, setServingSize] = useState<1 | 2 | 4>(1);
 
   if (!recipe) {
     return (
@@ -31,6 +32,18 @@ export default function RecipeDetailScreen() {
     );
   }
 
+  const formatScaledQuantity = (baseQuantity: string, multiplier: number) => {
+    const match = baseQuantity.match(/^(\d+(?:\.\d+)?)\s*([a-zA-Z\s]+)$/);
+    if (!match) return baseQuantity;
+
+    const val = parseFloat(match[1]);
+    const unit = match[2];
+    const scaledVal = val * multiplier;
+    
+    const formattedVal = Number.isInteger(scaledVal) ? scaledVal : scaledVal.toFixed(1);
+    return `${formattedVal}${unit}`;
+  };
+
   const toggleIngredient = (name: string) => {
     setOwnedIngredients(prev => 
       prev.includes(name) ? prev.filter(i => i !== name) : [...prev, name]
@@ -38,7 +51,7 @@ export default function RecipeDetailScreen() {
   };
 
   const missingIngredients = recipe.ingredients.filter(i => !ownedIngredients.includes(i.name));
-  const totalCost = missingIngredients.reduce((sum, i) => sum + i.price, 0);
+  const totalCost = missingIngredients.reduce((sum, i) => sum + (i.price * servingSize), 0);
 
   const handleOrder = () => {
     if (missingIngredients.length === 0) {
@@ -174,12 +187,29 @@ export default function RecipeDetailScreen() {
                   {missingIngredients.length} missing
                 </Text>
               </View>
+              
+              <View style={styles.servingToggleContainer}>
+                <View style={styles.servingControl}>
+                  {[1, 2, 4].map((size) => (
+                    <TouchableOpacity 
+                      key={size}
+                      style={[styles.servingButton, servingSize === size && styles.activeServing]} 
+                      onPress={() => setServingSize(size as any)}
+                    >
+                      <Text style={[styles.servingText, servingSize === size && styles.activeServingText]}>
+                        meal for {size}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+
               {recipe.ingredients.map((ingredient, index) => (
                 <IngredientItem
                   key={index}
                   name={ingredient.name}
-                  quantity={ingredient.quantity}
-                  price={ingredient.price}
+                  quantity={formatScaledQuantity(ingredient.quantity, servingSize)}
+                  price={ingredient.price * servingSize}
                   isOwned={ownedIngredients.includes(ingredient.name)}
                   onToggle={() => toggleIngredient(ingredient.name)}
                 />
@@ -583,5 +613,39 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 50,
     color: '#666',
-  }
+  },
+  servingToggleContainer: {
+    paddingVertical: 15,
+    marginBottom: 10,
+  },
+  servingControl: {
+    flexDirection: 'row',
+    backgroundColor: '#F0F0F0',
+    borderRadius: 12,
+    padding: 4,
+    height: 50,
+  },
+  servingButton: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+  },
+  activeServing: {
+    backgroundColor: '#FFF',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+  },
+  servingText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#666',
+  },
+  activeServingText: {
+    color: '#FF6347',
+    fontWeight: '700',
+  },
 });
