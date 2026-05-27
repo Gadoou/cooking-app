@@ -15,6 +15,7 @@ export default function PlannerScreen() {
   const { weekEntries, addMeal, removeMeal } = usePlanner();
   const [activeDayIndex, setActiveDayIndex] = useState(0);
   const flatListRef = useRef<FlatList>(null);
+  const pillsListRef = useRef<FlatList>(null);
 
   const [pickerConfig, setPickerConfig] = useState<{ visible: boolean; date: string; slot: MealSlot | null }>({
     visible: false,
@@ -26,9 +27,23 @@ export default function PlannerScreen() {
     setPickerConfig({ visible: true, date, slot });
   };
 
-  const scrollToDay = (index: number) => {
+  const syncActiveDay = (index: number, shouldScrollPager: boolean = true) => {
     setActiveDayIndex(index);
-    flatListRef.current?.scrollToIndex({ index, animated: true });
+    
+    // Scroll the pills bar to center the active day
+    pillsListRef.current?.scrollToIndex({
+      index,
+      viewPosition: 0.5,
+      animated: true,
+    });
+
+    // Scroll the main pager (only if triggered by a pill tap)
+    if (shouldScrollPager) {
+      flatListRef.current?.scrollToIndex({
+        index,
+        animated: true,
+      });
+    }
   };
 
   return (
@@ -37,19 +52,29 @@ export default function PlannerScreen() {
       
       {/* Day Selector Pills */}
       <View style={styles.pillsContainer}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.pillsScroll}>
-          {DAYS.map((day, index) => (
+        <FlatList
+          ref={pillsListRef}
+          data={DAYS}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.pillsScroll}
+          keyExtractor={(item) => item}
+          renderItem={({ item: day, index }) => (
             <TouchableOpacity 
-              key={day} 
               style={[styles.pill, activeDayIndex === index && styles.activePill]}
-              onPress={() => scrollToDay(index)}
+              onPress={() => syncActiveDay(index)}
             >
               <Text style={[styles.pillText, activeDayIndex === index && styles.activePillText]}>
                 {day.substring(0, 3)}
               </Text>
             </TouchableOpacity>
-          ))}
-        </ScrollView>
+          )}
+          onScrollToIndexFailed={(info) => {
+            setTimeout(() => {
+              pillsListRef.current?.scrollToIndex({ index: info.index, animated: true, viewPosition: 0.5 });
+            }, 100);
+          }}
+        />
       </View>
 
       <FlatList
@@ -60,7 +85,7 @@ export default function PlannerScreen() {
         showsHorizontalScrollIndicator={false}
         onMomentumScrollEnd={(ev) => {
           const index = Math.round(ev.nativeEvent.contentOffset.x / SCREEN_WIDTH);
-          setActiveDayIndex(index);
+          syncActiveDay(index, false);
         }}
         keyExtractor={(item) => item}
         renderItem={({ item: day }) => (
