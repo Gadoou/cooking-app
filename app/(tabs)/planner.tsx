@@ -7,7 +7,7 @@ import { RecipePicker } from '@/src/components/RecipePicker';
 import { GroceryListModal } from '@/src/components/GroceryListModal';
 import { usePlanner } from '@/src/context/PlannerContext';
 import { MOCK_RECIPES } from '@/src/data/mockRecipes';
-import { MealSlot } from '@/src/types';
+import { MealSlot, Recipe } from '@/src/types';
 import { Ionicons } from '@expo/vector-icons';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -30,7 +30,7 @@ export default function PlannerScreen() {
   const getRecipesForDay = (day: string) => {
     const dayPlan = weekEntries[day] || { breakfast: [], lunch: [], dinner: [] };
     const allIds = [...dayPlan.breakfast, ...dayPlan.lunch, ...dayPlan.dinner];
-    return MOCK_RECIPES.filter(r => allIds.includes(r.id));
+    return allIds.map(id => MOCK_RECIPES.find(r => r.id === id)).filter((r): r is Recipe => !!r);
   };
 
   const getAllWeekRecipes = () => {
@@ -39,7 +39,7 @@ export default function PlannerScreen() {
       ...day.lunch,
       ...day.dinner
     ]);
-    return MOCK_RECIPES.filter(r => allIds.includes(r.id));
+    return allIds.map(id => MOCK_RECIPES.find(r => r.id === id)).filter((r): r is Recipe => !!r);
   };
 
   const openPicker = (date: string, slot: MealSlot) => {
@@ -174,10 +174,10 @@ export default function PlannerScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
+    backgroundColor: '#F5F5F0',
   },
   pillsContainer: { 
-    backgroundColor: '#fff', 
+    backgroundColor: '#F5F5F0', 
     borderBottomWidth: 1, 
     borderBottomColor: '#F0F0F0', 
     paddingVertical: 12 
