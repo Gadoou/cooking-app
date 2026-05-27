@@ -20,7 +20,8 @@ export const MOCK_RECIPES: Recipe[] = [
       { id: 'r1', user: 'Chef Mario', rating: 5, comment: 'Simple and delicious!', date: '2026-05-20' },
       { id: 'r2', user: 'Linda P.', rating: 4, comment: 'Great for a quick lunch.', date: '2026-05-21' }
     ],
-    isLiked: false
+    isLiked: false,
+    image: require('@/assets/images/icon.png')
   },
   {
     id: '2',
@@ -40,7 +41,8 @@ export const MOCK_RECIPES: Recipe[] = [
     reviews: [
       { id: 'r3', user: 'GymRat99', rating: 5, comment: 'The best post-workout meal!', date: '2026-05-19' }
     ],
-    isLiked: true
+    isLiked: true,
+    image: require('@/assets/images/icon.png')
   },
   {
     id: '3',
@@ -58,7 +60,8 @@ export const MOCK_RECIPES: Recipe[] = [
     ],
     stages: [{ id: 's3', timeNeeded: 15, videoURL: 'https://example.com/video3.mp4', textDescription: 'Mix cooked quinoa with chopped vegetables.' }],
     reviews: [],
-    isLiked: false
+    isLiked: false,
+    image: require('@/assets/images/icon.png')
   },
   {
     id: '4',
@@ -78,7 +81,8 @@ export const MOCK_RECIPES: Recipe[] = [
     reviews: [
       { id: 'r4', user: 'PartyHost', rating: 5, comment: 'Feeds a lot of people! Great flavor.', date: '2026-05-18' }
     ],
-    isLiked: false
+    isLiked: false,
+    image: require('@/assets/images/icon.png')
   },
   {
     id: '5',
@@ -96,7 +100,8 @@ export const MOCK_RECIPES: Recipe[] = [
     ],
     stages: [{ id: 's5', timeNeeded: 40, videoURL: 'https://example.com/video5.mp4', textDescription: 'Simmer lentils and veggies until soft.' }],
     reviews: [],
-    isLiked: false
+    isLiked: false,
+    image: require('@/assets/images/icon.png')
   },
   {
     id: '6',
@@ -116,6 +121,7 @@ export const MOCK_RECIPES: Recipe[] = [
     reviews: [
       { id: 'r5', user: 'KetoQueen', rating: 5, comment: 'Crispy skin every time!', date: '2026-05-22' }
     ],
-    isLiked: false
+    isLiked: false,
+    image: require('@/assets/images/icon.png')
   }
 ];

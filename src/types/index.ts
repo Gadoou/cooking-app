@@ -34,6 +34,7 @@ export interface Recipe {
   stages: CookingStage[];
   reviews: Review[];
   isLiked: boolean;
+  image?: any;
 }
 
 export type MealSlot = 'breakfast' | 'lunch' | 'dinner';

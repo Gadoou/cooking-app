@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { MOCK_RECIPES } from '@/src/data/mockRecipes';
 
@@ -28,6 +28,7 @@ export const MealSlotItem = ({ label, recipeIds, onAdd, onRemove }: MealSlotItem
           const recipe = MOCK_RECIPES.find(r => r.id === id);
           return (
             <View key={`${id}-${index}`} style={styles.recipeCard}>
+              <Image source={recipe?.image} style={styles.mealImage} />
               <View style={styles.recipeInfo}>
                 <Ionicons name="restaurant-outline" size={16} color="#FF6347" style={{marginRight: 8}} />
                 <Text style={styles.recipeTitle} numberOfLines={1}>{recipe?.title || 'Unknown'}</Text>
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between', 
     alignItems: 'center',
     backgroundColor: '#FFF',
-    padding: 12,
+    padding: 10,
     borderRadius: 12,
     marginBottom: 6,
     borderWidth: 1,
@@ -84,6 +85,12 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 2,
+  },
+  mealImage: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+    marginRight: 12,
   },
   recipeInfo: { flexDirection: 'row', alignItems: 'center', flex: 1 },
   recipeTitle: { fontSize: 14, color: '#333', fontWeight: '500', flex: 1 },

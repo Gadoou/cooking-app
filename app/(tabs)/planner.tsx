@@ -4,8 +4,11 @@ import { AppHeader } from '@/src/components/AppHeader';
 import { PlannerStats } from '@/src/components/PlannerStats';
 import { MealSlotItem } from '@/src/components/MealSlotItem';
 import { RecipePicker } from '@/src/components/RecipePicker';
+import { GroceryListModal } from '@/src/components/GroceryListModal';
 import { usePlanner } from '@/src/context/PlannerContext';
+import { MOCK_RECIPES } from '@/src/data/mockRecipes';
 import { MealSlot } from '@/src/types';
+import { Ionicons } from '@expo/vector-icons';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -14,6 +17,7 @@ const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
 export default function PlannerScreen() {
   const { weekEntries, addMeal, removeMeal } = usePlanner();
   const [activeDayIndex, setActiveDayIndex] = useState(0);
+  const [isCartVisible, setIsCartVisible] = useState(false);
   const flatListRef = useRef<FlatList>(null);
   const pillsListRef = useRef<FlatList>(null);
 
@@ -22,6 +26,21 @@ export default function PlannerScreen() {
     date: '',
     slot: null,
   });
+
+  const getRecipesForDay = (day: string) => {
+    const dayPlan = weekEntries[day] || { breakfast: [], lunch: [], dinner: [] };
+    const allIds = [...dayPlan.breakfast, ...dayPlan.lunch, ...dayPlan.dinner];
+    return MOCK_RECIPES.filter(r => allIds.includes(r.id));
+  };
+
+  const getAllWeekRecipes = () => {
+    const allIds = Object.values(weekEntries).flatMap(day => [
+      ...day.breakfast,
+      ...day.lunch,
+      ...day.dinner
+    ]);
+    return MOCK_RECIPES.filter(r => allIds.includes(r.id));
+  };
 
   const openPicker = (date: string, slot: MealSlot) => {
     setPickerConfig({ visible: true, date, slot });
@@ -48,7 +67,14 @@ export default function PlannerScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <AppHeader welcomeText="Your Week" />
+      <AppHeader 
+        welcomeText="Your Week" 
+        rightElement={
+          <TouchableOpacity onPress={() => setIsCartVisible(true)}>
+            <Ionicons name="cart-outline" size={28} color="#FF6347" />
+          </TouchableOpacity>
+        }
+      />
       
       {/* Day Selector Pills */}
       <View style={styles.pillsContainer}>
@@ -134,6 +160,13 @@ export default function PlannerScreen() {
       <View style={styles.statsFooter}>
         <PlannerStats />
       </View>
+
+      <GroceryListModal 
+        visible={isCartVisible}
+        onClose={() => setIsCartVisible(false)}
+        dayRecipes={getRecipesForDay(DAYS[activeDayIndex])}
+        weekRecipes={getAllWeekRecipes()}
+      />
     </SafeAreaView>
   );
 }

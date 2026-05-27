@@ -1,13 +1,16 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-export const AppHeader = ({ welcomeText }: { welcomeText: string }) => (
+export const AppHeader = ({ welcomeText, rightElement }: { welcomeText: string; rightElement?: React.ReactNode }) => (
   <View style={styles.header}>
-    <View style={styles.logoContainer}>
-      <View style={styles.logoCircle}>
-        <Ionicons name="restaurant" size={24} color="#fff" />
+    <View style={styles.topRow}>
+      <View style={styles.logoContainer}>
+        <View style={styles.logoCircle}>
+          <Ionicons name="restaurant" size={24} color="#fff" />
+        </View>
+        <Text style={styles.logoText}>ChefPal</Text>
       </View>
-      <Text style={styles.logoText}>ChefPal</Text>
+      {rightElement}
     </View>
     <Text style={styles.welcome}>{welcomeText}</Text>
   </View>
@@ -19,10 +22,15 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     backgroundColor: '#FFFFFF'
   },
+  topRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8
+  },
   logoContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8
   },
   logoCircle: {
     width: 40,

@@ -4,12 +4,16 @@ import { useLocalSearchParams, Stack, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { MOCK_RECIPES } from '@/src/data/mockRecipes';
 import { useAppContext } from '@/src/context/AppContext';
+import { usePlanner } from '@/src/context/PlannerContext';
 import { IngredientItem } from '@/src/components/IngredientItem';
+import { AddToPlanModal } from '@/src/components/AddToPlanModal';
+import { MealSlot } from '@/src/types';
 
 export default function RecipeDetailScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const { isLiked, toggleLike } = useAppContext();
+  const { addMeal } = usePlanner();
   const recipe = MOCK_RECIPES.find(r => r.id === id);
 
   // Local state
@@ -17,6 +21,7 @@ export default function RecipeDetailScreen() {
   const [activeTab, setActiveTab] = useState<'ingredients' | 'steps' | 'reviews'>('ingredients');
   const [newReview, setNewReview] = useState('');
   const [userRating, setUserRating] = useState(5);
+  const [isPlanModalVisible, setIsPlanModalVisible] = useState(false);
 
   if (!recipe) {
     return (
@@ -56,7 +61,12 @@ export default function RecipeDetailScreen() {
   };
 
   const handleAddToPlan = () => {
-    Alert.alert("Added to Plan", `${recipe.title} has been added to your Weekly Plan.`);
+    setIsPlanModalVisible(true);
+  };
+
+  const handleConfirmPlan = (day: string, slot: MealSlot) => {
+    addMeal(day, slot, recipe.id);
+    Alert.alert("Added to Plan", `${recipe.title} has been added to ${day} ${slot}.`);
   };
 
   return (
@@ -272,6 +282,12 @@ export default function RecipeDetailScreen() {
           </TouchableOpacity>
         </View>
       )}
+
+      <AddToPlanModal 
+        visible={isPlanModalVisible}
+        onClose={() => setIsPlanModalVisible(false)}
+        onConfirm={handleConfirmPlan}
+      />
     </SafeAreaView>
   );
 }
