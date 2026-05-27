@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, SafeAreaView, TouchableOpacity, Alert, TextInput } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, SafeAreaView, TouchableOpacity, Alert, TextInput, Image } from 'react-native';
 import { useLocalSearchParams, Stack, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { MOCK_RECIPES } from '@/src/data/mockRecipes';
@@ -128,10 +128,6 @@ export default function RecipeDetailScreen() {
               <Ionicons name="leaf-outline" size={20} color="#D4AF37" />
               <Text style={styles.infoText}>{recipe.dietStyle}</Text>
             </View>
-          </View>
-
-          <View style={styles.placeholderImage}>
-            <Ionicons name="restaurant-outline" size={80} color="#D4AF37" />
           </View>
 
           <View style={styles.actionRow}>
