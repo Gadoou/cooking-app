@@ -122,6 +122,6 @@ export const MOCK_RECIPES: Recipe[] = [
       { id: 'r5', user: 'KetoQueen', rating: 5, comment: 'Crispy skin every time!', date: '2026-05-22' }
     ],
     isLiked: false,
-    image: require('@/assets/images/icon.png')
+    image: require('@/assets/images/recipe-6.jpeg')
   }
 ];
