@@ -1,14 +1,15 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 export const AppHeader = ({ welcomeText, rightElement }: { welcomeText: string; rightElement?: React.ReactNode }) => (
   <View style={styles.header}>
     <View style={styles.topRow}>
       <View style={styles.logoContainer}>
-        <View style={styles.logoCircle}>
-          <Ionicons name="restaurant" size={24} color="#fff" />
-        </View>
-        <Text style={styles.logoText}>ChefPal</Text>
+        <Image 
+          source={require('@/assets/images/brandlogo2.jpeg')} 
+          style={styles.brandLogo} 
+          resizeMode="contain" 
+        />
       </View>
       {rightElement}
     </View>
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
   header: {
     paddingHorizontal: 16,
     paddingTop: 10,
-    backgroundColor: '#FFFFFF'
+    backgroundColor: '#F5F5F0'
   },
   topRow: {
     flexDirection: 'row',
@@ -31,21 +32,11 @@ const styles = StyleSheet.create({
   logoContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginLeft: -85,
   },
-  logoCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#FF6347',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 10
-  },
-  logoText: {
-    fontSize: 22,
-    fontWeight: '900',
-    color: '#FF6347',
-    letterSpacing: -0.5
+  brandLogo: {
+    height: 86,
+    width: 303, // Adjust width based on typical logo proportions, contain will handle the rest
   },
   welcome: {
     fontSize: 16,
