@@ -329,7 +329,7 @@ export default function RecipeDetailScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F0C94B',
+    backgroundColor: '#fff',
   },
   content: {
     padding: 20,
@@ -659,3 +659,4 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
 });
+;
