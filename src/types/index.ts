@@ -35,3 +35,16 @@ export interface Recipe {
   reviews: Review[];
   isLiked: boolean;
 }
+
+export type MealSlot = 'breakfast' | 'lunch' | 'dinner';
+
+export interface DayPlan {
+  breakfast: string[];
+  lunch: string[];
+  dinner: string[];
+}
+
+export interface PlannerState {
+  weekEntries: Record<string, DayPlan>;
+  keepPlan: boolean;
+}
