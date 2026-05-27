@@ -130,6 +130,14 @@ export default function RecipeDetailScreen() {
             </View>
           </View>
 
+          <View style={styles.placeholderImage}>
+            {recipe.image ? (
+              <Image source={recipe.image} style={styles.recipeImage} />
+            ) : (
+              <Ionicons name="restaurant-outline" size={80} color="#D4AF37" />
+            )}
+          </View>
+
           <View style={styles.actionRow}>
             <TouchableOpacity 
               style={[styles.actionButton, styles.likeButton]} 
@@ -361,6 +369,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 25,
+    overflow: 'hidden',
+  },
+  recipeImage: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
   },
   actionRow: {
     flexDirection: 'row',
