@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { MOCK_RECIPES } from '@/src/data/mockRecipes';
 
+import { useLanguage } from '@/src/context/LanguageContext';
+
 interface MealSlotItemProps {
   label: string;
   recipeIds: string[];
@@ -11,27 +13,29 @@ interface MealSlotItemProps {
 }
 
 export const MealSlotItem = ({ label, recipeIds, onAdd, onRemove }: MealSlotItemProps) => {
+  const { isRTL, t } = useLanguage();
+
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.label}>{label}</Text>
+      <View style={[styles.header, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+        <Text style={styles.label}>{t(label)}</Text>
         <TouchableOpacity onPress={onAdd} style={styles.addButton}>
           <Ionicons name="add-circle" size={24} color="#FF6347" />
         </TouchableOpacity>
       </View>
       {recipeIds.length === 0 ? (
         <TouchableOpacity onPress={onAdd} style={styles.emptyContainer}>
-          <Text style={styles.emptyText}>Tap to add a meal</Text>
+          <Text style={styles.emptyText}>{t("Tap to add a meal")}</Text>
         </TouchableOpacity>
       ) : (
         recipeIds.map((id, index) => {
           const recipe = MOCK_RECIPES.find(r => r.id === id);
           return (
-            <View key={`${id}-${index}`} style={styles.recipeCard}>
-              <Image source={recipe?.image} style={styles.mealImage} />
-              <View style={styles.recipeInfo}>
-                <Ionicons name="restaurant-outline" size={16} color="#FF6347" style={{marginRight: 8}} />
-                <Text style={styles.recipeTitle} numberOfLines={1}>{recipe?.title || 'Unknown'}</Text>
+            <View key={`${id}-${index}`} style={[styles.recipeCard, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+              <Image source={recipe?.image} style={[styles.mealImage, { marginLeft: isRTL ? 12 : 0, marginRight: isRTL ? 0 : 12 }]} />
+              <View style={[styles.recipeInfo, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                <Ionicons name="restaurant-outline" size={16} color="#FF6347" style={{ marginLeft: isRTL ? 8 : 0, marginRight: isRTL ? 0 : 8 }} />
+                <Text style={[styles.recipeTitle, { textAlign: isRTL ? 'right' : 'left' }]} numberOfLines={1}>{t(recipe?.title || 'Unknown')}</Text>
               </View>
               <TouchableOpacity onPress={() => onRemove(id)}>
                 <Ionicons name="trash-outline" size={18} color="#999" />

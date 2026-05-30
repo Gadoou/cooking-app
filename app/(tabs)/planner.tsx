@@ -10,11 +10,14 @@ import { MOCK_RECIPES } from '@/src/data/mockRecipes';
 import { MealSlot, Recipe } from '@/src/types';
 import { Ionicons } from '@expo/vector-icons';
 
+import { useLanguage } from '@/src/context/LanguageContext';
+
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 export default function PlannerScreen() {
+  const { isRTL, t } = useLanguage();
   const { weekEntries, addMeal, removeMeal } = usePlanner();
   const [activeDayIndex, setActiveDayIndex] = useState(0);
   const [isCartVisible, setIsCartVisible] = useState(false);
@@ -83,7 +86,7 @@ export default function PlannerScreen() {
           data={DAYS}
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.pillsScroll}
+          contentContainerStyle={[styles.pillsScroll, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}
           keyExtractor={(item) => item}
           renderItem={({ item: day, index }) => (
             <TouchableOpacity 
@@ -91,7 +94,7 @@ export default function PlannerScreen() {
               onPress={() => syncActiveDay(index)}
             >
               <Text style={[styles.pillText, activeDayIndex === index && styles.activePillText]}>
-                {day.substring(0, 3)}
+                {t(day).substring(0, 3)}
               </Text>
             </TouchableOpacity>
           )}
@@ -118,8 +121,8 @@ export default function PlannerScreen() {
           <View style={{ width: SCREEN_WIDTH }}>
             <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
               <View style={styles.dayCard}>
-                <View style={styles.dayHeader}>
-                  <Text style={styles.dayTitle}>{day}</Text>
+                <View style={[styles.dayHeader, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                  <Text style={styles.dayTitle}>{t(day)}</Text>
                   <View style={styles.dayDot} />
                 </View>
 

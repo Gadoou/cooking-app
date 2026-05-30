@@ -9,7 +9,7 @@ export const MOCK_RECIPES: Recipe[] = [
     likes: 1200,
     origin: 'Italian',
     cookingTime: 15,
-    dietStyle: 'Healthy',
+    dietStyle: 'lowCal',
     ingredients: [
       { name: 'Pasta', quantity: '200g', price: 2.0, imageName: 'pasta', isOwned: false },
       { name: 'Garlic', quantity: '4 cloves', price: 0.5, imageName: 'garlic', isOwned: false },

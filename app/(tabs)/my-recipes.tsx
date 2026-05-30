@@ -4,8 +4,11 @@ import { useAppContext } from '@/src/context/AppContext';
 import { MOCK_RECIPES } from '@/src/data/mockRecipes';
 import { RecipeCard } from '@/src/components/RecipeCard';
 
+import { useLanguage } from '@/src/context/LanguageContext';
+
 export default function MyRecipesScreen() {
   const { likedRecipeIds } = useAppContext();
+  const { isRTL, t } = useLanguage();
   
   const likedRecipes = MOCK_RECIPES.filter(recipe => 
     likedRecipeIds.includes(recipe.id)
@@ -28,7 +31,9 @@ export default function MyRecipesScreen() {
           />
         ) : (
           <View style={styles.emptyContainer}>
-            <Text style={styles.emptyText}>You haven't liked any recipes yet.</Text>
+            <Text style={[styles.emptyText, { textAlign: isRTL ? 'right' : 'center' }]}>
+              {t("You haven't liked any recipes yet.")}
+            </Text>
           </View>
         )}
       </View>

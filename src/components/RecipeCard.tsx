@@ -10,7 +10,7 @@ interface RecipeCardProps {
 
 export const RecipeCard = ({ recipe }: RecipeCardProps) => {
   const router = useRouter();
-  const { isRTL } = useLanguage();
+  const { isRTL, t } = useLanguage();
 
   const handlePress = () => {
     router.push({
@@ -29,13 +29,17 @@ export const RecipeCard = ({ recipe }: RecipeCardProps) => {
         )}
       </View>
       <View style={[styles.info, { alignItems: isRTL ? 'flex-end' : 'flex-start' }]}>
-        <Text style={[styles.title, { textAlign: isRTL ? 'right' : 'left' }]} numberOfLines={1}>{recipe.title}</Text>
+        <Text style={[styles.title, { textAlign: isRTL ? 'right' : 'left' }]} numberOfLines={1}>
+          {t(recipe.title)}
+        </Text>
         <View style={[styles.footer, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
           <View style={[styles.stat, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
             <Ionicons name="heart" size={14} color="#FF6347" />
-            <Text style={[styles.statText, isRTL ? { marginRight: 4 } : { marginLeft: 4 }]}>{recipe.likes}</Text>
+            <Text style={[styles.statText, isRTL ? { marginRight: 4 } : { marginLeft: 4 }]}>
+              {recipe.likes}
+            </Text>
           </View>
-          <Text style={styles.statText}>{recipe.cookingTime}m</Text>
+          <Text style={styles.statText}>{recipe.cookingTime}{t("mins")}</Text>
         </View>
       </View>
     </TouchableOpacity>

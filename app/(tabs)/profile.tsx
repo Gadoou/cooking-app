@@ -3,6 +3,8 @@ import { StyleSheet, View, Text, SafeAreaView, ScrollView, TouchableOpacity, Ale
 import { AppHeader } from '@/src/components/AppHeader';
 import { Ionicons } from '@expo/vector-icons';
 
+import { useLanguage } from '@/src/context/LanguageContext';
+
 interface SettingItemProps {
   label: string;
   onPress: () => void;
@@ -10,24 +12,33 @@ interface SettingItemProps {
   isLast?: boolean;
 }
 
-const SettingItem = ({ label, onPress, icon, isLast }: SettingItemProps) => (
-  <TouchableOpacity 
-    style={[styles.settingItem, !isLast && styles.settingBorder]} 
-    onPress={onPress}
-  >
-    <View style={styles.settingLabelContainer}>
-      {icon && <Ionicons name={icon as any} size={20} color="#555" style={{marginRight: 12}} />}
-      <Text style={styles.settingLabel}>{label}</Text>
-    </View>
-    <Ionicons name="chevron-forward" size={18} color="#CCC" />
-  </TouchableOpacity>
-);
+const SettingItem = ({ label, onPress, icon, isLast }: SettingItemProps) => {
+  const { isRTL, t } = useLanguage();
+  return (
+    <TouchableOpacity 
+      style={[styles.settingItem, !isLast && styles.settingBorder, { flexDirection: isRTL ? 'row-reverse' : 'row' }]} 
+      onPress={onPress}
+    >
+      <View style={[styles.settingLabelContainer, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+        {icon && <Ionicons name={icon as any} size={20} color="#555" style={{ marginLeft: isRTL ? 12 : 0, marginRight: isRTL ? 0 : 12 }} />}
+        <Text style={[styles.settingLabel, { textAlign: isRTL ? 'right' : 'left' }]}>{t(label)}</Text>
+      </View>
+      <Ionicons name={isRTL ? "chevron-back" : "chevron-forward"} size={18} color="#CCC" />
+    </TouchableOpacity>
+  );
+};
 
-const SectionLabel = ({ text }: { text: string }) => (
-  <Text style={styles.sectionLabel}>{text.toUpperCase()}</Text>
-);
+const SectionLabel = ({ text }: { text: string }) => {
+  const { isRTL, t } = useLanguage();
+  return (
+    <Text style={[styles.sectionLabel, { textAlign: isRTL ? 'right' : 'left', marginRight: isRTL ? 4 : 0, marginLeft: isRTL ? 0 : 4 }]}>
+      {t(text).toUpperCase()}
+    </Text>
+  );
+};
 
 export default function ProfileScreen() {
+  const { isRTL, t, toggleLayout } = useLanguage();
   const [visualMode, setVisualMode] = useState<'light' | 'dark'>('light');
 
   return (
@@ -40,11 +51,11 @@ export default function ProfileScreen() {
         <View style={styles.groupContainer}>
           <SettingItem 
             label="Modify account info" 
-            onPress={() => Alert.alert("Action", "Opening account modification...")} 
+            onPress={() => Alert.alert(t("Action"), t("Opening account modification..."))} 
           />
           <SettingItem 
             label="Notifications" 
-            onPress={() => Alert.alert("Action", "Opening notification settings...")} 
+            onPress={() => Alert.alert(t("Action"), t("Opening notification settings..."))} 
             isLast 
           />
         </View>
@@ -54,11 +65,11 @@ export default function ProfileScreen() {
         <View style={styles.groupContainer}>
           <SettingItem 
             label="App services" 
-            onPress={() => Alert.alert("Action", "Managing services...")} 
+            onPress={() => Alert.alert(t("Privacy"), t("Managing services..."))} 
           />
           <SettingItem 
             label="Data usage" 
-            onPress={() => Alert.alert("Action", "Viewing data usage...")} 
+            onPress={() => Alert.alert(t("Privacy"), t("Viewing data usage..."))} 
           />
           <SettingItem 
             label="Info about the app" 
@@ -71,18 +82,18 @@ export default function ProfileScreen() {
         <SectionLabel text="App visuals" />
         <View style={styles.groupContainer}>
           <View style={styles.toggleContainer}>
-            <View style={styles.segmentedControl}>
+            <View style={[styles.segmentedControl, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
               <TouchableOpacity 
                 style={[styles.segmentButton, visualMode === 'light' && styles.activeSegment]} 
                 onPress={() => setVisualMode('light')}
               >
-                <Text style={[styles.segmentText, visualMode === 'light' && styles.activeSegmentText]}>Light Mode</Text>
+                <Text style={[styles.segmentText, visualMode === 'light' && styles.activeSegmentText]}>{t("Light Mode")}</Text>
               </TouchableOpacity>
               <TouchableOpacity 
                 style={[styles.segmentButton, visualMode === 'dark' && styles.activeSegment]} 
                 onPress={() => setVisualMode('dark')}
               >
-                <Text style={[styles.segmentText, visualMode === 'dark' && styles.activeSegmentText]}>Dark Mode</Text>
+                <Text style={[styles.segmentText, visualMode === 'dark' && styles.activeSegmentText]}>{t("Dark Mode")}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -93,15 +104,15 @@ export default function ProfileScreen() {
         <View style={styles.groupContainer}>
           <SettingItem 
             label="Call customer service" 
-            onPress={() => Alert.alert("Action", "Connecting to support...")} 
+            onPress={() => Alert.alert(t("Action"), t("Connecting to support..."))} 
           />
           <SettingItem 
             label="Q&As" 
-            onPress={() => Alert.alert("Action", "Opening FAQs...")} 
+            onPress={() => Alert.alert(t("Help"), t("Opening FAQs..."))} 
           />
           <SettingItem 
             label="Other help choices" 
-            onPress={() => Alert.alert("Action", "Opening help menu...")} 
+            onPress={() => Alert.alert(t("Action"), t("Opening help menu..."))} 
             isLast 
           />
         </View>

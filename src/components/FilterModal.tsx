@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
+import { useLanguage } from '@/src/context/LanguageContext';
+
 /**
  * FilterModal Component
  * Implements a multi-criteria filter for the cooking app.
@@ -35,25 +37,29 @@ const SegmentedControl = ({ options, activeValue, onChange }: {
   options: { label: string; value: any }[], 
   activeValue: any, 
   onChange: (val: any) => void 
-}) => (
-  <View style={styles.segmentedControl}>
-    {options.map((opt) => (
-      <TouchableOpacity
-        key={opt.value}
-        style={[styles.segmentButton, activeValue === opt.value && styles.activeSegment]}
-        onPress={() => onChange(opt.value)}
-      >
-        <Text style={[styles.segmentText, activeValue === opt.value && styles.activeSegmentText]}>
-          {opt.label}
-        </Text>
-      </TouchableOpacity>
-    ))}
-  </View>
-);
+}) => {
+  const { isRTL, t } = useLanguage();
+  return (
+    <View style={[styles.segmentedControl, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+      {options.map((opt) => (
+        <TouchableOpacity
+          key={opt.value}
+          style={[styles.segmentButton, activeValue === opt.value && styles.activeSegment]}
+          onPress={() => onChange(opt.value)}
+        >
+          <Text style={[styles.segmentText, activeValue === opt.value && styles.activeSegmentText]}>
+            {t(opt.label)}
+          </Text>
+        </TouchableOpacity>
+      ))}
+    </View>
+  );
+};
 
 const ALL_INGREDIENTS = ['Pasta', 'Chicken', 'Beef', 'Rice', 'Garlic', 'Lemon', 'Tomato', 'Salmon', 'Quinoa'];
 
 export const FilterModal = ({ visible, onClose, onApply }: FilterModalProps) => {
+  const { isRTL, t } = useLanguage();
   const [budget, setBudget] = useState('any');
   const [time, setTime] = useState('any');
   const [guests, setGuests] = useState(1);
@@ -94,13 +100,13 @@ export const FilterModal = ({ visible, onClose, onApply }: FilterModalProps) => 
     <Modal visible={visible} animationType="slide" presentationStyle="fullScreen">
       <SafeAreaView style={styles.container}>
         {/* Header Section */}
-        <View style={styles.header}>
+        <View style={[styles.header, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
           <TouchableOpacity onPress={onClose} accessibilityLabel="Cancel filters">
-            <Text style={styles.headerButtonText}>Cancel</Text>
+            <Text style={styles.headerButtonText}>{t("Cancel")}</Text>
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Filters</Text>
+          <Text style={styles.headerTitle}>{t("Filters")}</Text>
           <TouchableOpacity onPress={handleReset} accessibilityLabel="Reset filters">
-            <Text style={styles.headerButtonText}>Reset</Text>
+            <Text style={styles.headerButtonText}>{t("Reset")}</Text>
           </TouchableOpacity>
         </View>
 
@@ -108,7 +114,7 @@ export const FilterModal = ({ visible, onClose, onApply }: FilterModalProps) => 
         <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
           {/* Budget Section */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Budget</Text>
+            <Text style={[styles.sectionTitle, { textAlign: isRTL ? 'right' : 'left' }]}>{t("Budget")}</Text>
             <SegmentedControl
               activeValue={budget}
               onChange={setBudget}
@@ -123,7 +129,7 @@ export const FilterModal = ({ visible, onClose, onApply }: FilterModalProps) => 
 
           {/* Cooking Time Section */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Cooking Time</Text>
+            <Text style={[styles.sectionTitle, { textAlign: isRTL ? 'right' : 'left' }]}>{t("Cooking Time")}</Text>
             <SegmentedControl
               activeValue={time}
               onChange={setTime}
@@ -138,7 +144,7 @@ export const FilterModal = ({ visible, onClose, onApply }: FilterModalProps) => 
 
           {/* Guests Section */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>How many will be eating</Text>
+            <Text style={[styles.sectionTitle, { textAlign: isRTL ? 'right' : 'left' }]}>{t("How many will be eating")}</Text>
             <SegmentedControl
               activeValue={guests}
               onChange={setGuests}
@@ -152,16 +158,16 @@ export const FilterModal = ({ visible, onClose, onApply }: FilterModalProps) => 
 
           {/* Diet Section */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Diet</Text>
-            <View style={styles.buttonGrid}>
+            <Text style={[styles.sectionTitle, { textAlign: isRTL ? 'right' : 'left' }]}>{t("Diet")}</Text>
+            <View style={[styles.buttonGrid, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
               {['all', 'Balanced', 'Protein', 'Healthy'].map((item) => (
                 <TouchableOpacity
                   key={item}
-                  style={[styles.gridButton, diet === item && styles.activeGridButton]}
+                  style={[styles.gridButton, diet === item && styles.activeGridButton, { marginLeft: isRTL ? 8 : 0, marginRight: isRTL ? 0 : 8 }]}
                   onPress={() => setDiet(item)}
                 >
                   <Text style={[styles.gridButtonText, diet === item && styles.activeGridButtonText]}>
-                    {item === 'all' ? 'All' : item}
+                    {t(item === 'all' ? 'All' : item)}
                   </Text>
                 </TouchableOpacity>
               ))}
@@ -170,16 +176,16 @@ export const FilterModal = ({ visible, onClose, onApply }: FilterModalProps) => 
 
           {/* Origin Section */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Meal Origin</Text>
-            <View style={styles.buttonGrid}>
+            <Text style={[styles.sectionTitle, { textAlign: isRTL ? 'right' : 'left' }]}>{t("Meal Origin")}</Text>
+            <View style={[styles.buttonGrid, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
               {['all', 'Asian', 'Egyptian', 'Italian', 'Indian'].map((item) => (
                 <TouchableOpacity
                   key={item}
-                  style={[styles.gridButton, origin === item && styles.activeGridButton]}
+                  style={[styles.gridButton, origin === item && styles.activeGridButton, { marginLeft: isRTL ? 8 : 0, marginRight: isRTL ? 0 : 8 }]}
                   onPress={() => setOrigin(item)}
                 >
                   <Text style={[styles.gridButtonText, origin === item && styles.activeGridButtonText]}>
-                    {item === 'all' ? 'All' : item}
+                    {t(item === 'all' ? 'All' : item)}
                   </Text>
                 </TouchableOpacity>
               ))}
@@ -188,18 +194,18 @@ export const FilterModal = ({ visible, onClose, onApply }: FilterModalProps) => 
 
           {/* Cook with what you have Section */}
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Cook with what you have</Text>
-            <View style={styles.ingredientsGrid}>
+            <Text style={[styles.sectionTitle, { textAlign: isRTL ? 'right' : 'left' }]}>{t("Cook with what you have")}</Text>
+            <View style={[styles.ingredientsGrid, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
               {ALL_INGREDIENTS.map((ingredient) => {
                 const isActive = ingredients.includes(ingredient);
                 return (
                   <TouchableOpacity
                     key={ingredient}
-                    style={[styles.ingredientChip, isActive && styles.activeChip]}
+                    style={[styles.ingredientChip, isActive && styles.activeChip, { marginLeft: isRTL ? 8 : 0, marginRight: isRTL ? 0 : 8 }]}
                     onPress={() => toggleIngredient(ingredient)}
                   >
                     <Text style={[styles.chipText, isActive && styles.activeChipText]}>
-                      {ingredient}
+                      {t(ingredient)}
                     </Text>
                   </TouchableOpacity>
                 );
@@ -213,7 +219,7 @@ export const FilterModal = ({ visible, onClose, onApply }: FilterModalProps) => 
         {/* Footer Section */}
         <View style={styles.footer}>
           <TouchableOpacity style={styles.applyButton} onPress={handleApply} activeOpacity={0.8}>
-            <Text style={styles.applyButtonText}>Apply Filters</Text>
+            <Text style={styles.applyButtonText}>{t("Apply Filters")}</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>

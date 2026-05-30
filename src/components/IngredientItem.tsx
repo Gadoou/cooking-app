@@ -11,7 +11,7 @@ interface IngredientItemProps {
 }
 
 export const IngredientItem = ({ name, quantity, price, isOwned, onToggle }: IngredientItemProps) => {
-  const { isRTL } = useLanguage();
+  const { isRTL, t } = useLanguage();
 
   return (
     <TouchableOpacity 
@@ -26,7 +26,7 @@ export const IngredientItem = ({ name, quantity, price, isOwned, onToggle }: Ing
       />
       <View style={[styles.info, isRTL ? { marginRight: 12, marginLeft: 0 } : { marginLeft: 12, marginRight: 0 }, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
         <View style={[styles.leftInfo, { alignItems: isRTL ? 'flex-end' : 'flex-start' }]}>
-          <Text style={[styles.name, isOwned && styles.strike, { textAlign: isRTL ? 'right' : 'left' }]}>{name}</Text>
+          <Text style={[styles.name, isOwned && styles.strike, { textAlign: isRTL ? 'right' : 'left' }]}>{t(name)}</Text>
           <Text style={[styles.quantity, { textAlign: isRTL ? 'right' : 'left' }]}>{quantity}</Text>
         </View>
         <Text style={[styles.price, isOwned && styles.strike]}>${price.toFixed(2)}</Text>

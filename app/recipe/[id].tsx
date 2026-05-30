@@ -57,21 +57,21 @@ export default function RecipeDetailScreen() {
 
   const handleOrder = () => {
     if (missingIngredients.length === 0) {
-      Alert.alert("Nothing to order", "You already have all the ingredients!");
+      Alert.alert(t("Nothing to order"), t("You already have all the ingredients!"));
       return;
     }
     Alert.alert(
-      "Order Placed", 
-      `Successfully ordered ${missingIngredients.length} items. Total: $${totalCost.toFixed(2)}`
+      t("Order Placed"), 
+      `${t("Successfully ordered")} ${missingIngredients.length} ${t("items")}. ${t("Total")}: $${totalCost.toFixed(2)}`
     );
   };
 
   const handleSubmitReview = () => {
     if (newReview.trim() === '') {
-      Alert.alert("Error", "Please write a comment first.");
+      Alert.alert(t("Error"), t("Please write a comment first."));
       return;
     }
-    Alert.alert("Review Submitted", "Thank you for your feedback!");
+    Alert.alert(t("Review Submitted"), t("Thank you for your feedback!"));
     setNewReview('');
   };
 
@@ -81,14 +81,14 @@ export default function RecipeDetailScreen() {
 
   const handleConfirmPlan = (day: string, slot: MealSlot) => {
     addMeal(day, slot, recipe.id);
-    Alert.alert("Added to Plan", `${recipe.title} has been added to ${day} ${slot}.`);
+    Alert.alert(t("Weekly Plan"), `${t(recipe.title)} ${t("has been added to")} ${t(day)} ${t(slot)}.`);
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <Stack.Screen 
         options={{ 
-          title: t('recipeDetails'),
+          title: t('Recipe Details'),
           headerShown: true,
           headerStyle: { backgroundColor: '#F5F5F0' },
           headerTintColor: '#000',
@@ -110,25 +110,25 @@ export default function RecipeDetailScreen() {
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.content}>
-          <Text style={[styles.title, { textAlign: isRTL ? 'right' : 'left' }]}>{recipe.title}</Text>
+          <Text style={[styles.title, { textAlign: isRTL ? 'right' : 'left' }]}>{t(recipe.title)}</Text>
           
           {/* Info Bar */}
           <View style={[styles.infoBar, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
             <View style={[styles.infoItem, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
               <Ionicons name="cash-outline" size={20} color="#D4AF37" />
-              <Text style={[styles.infoText, isRTL ? { marginRight: 6 } : { marginLeft: 6 }]}>${recipe.cost}</Text>
+              <Text style={[styles.infoText, isRTL ? { marginRight: 6 } : { marginLeft: 6 }]}>${(recipe.cost * servingSize).toFixed(2)}</Text>
             </View>
             <View style={[styles.infoItem, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
               <Ionicons name="timer-outline" size={20} color="#D4AF37" />
-              <Text style={[styles.infoText, isRTL ? { marginRight: 6 } : { marginLeft: 6 }]}>{recipe.cookingTime}m</Text>
+              <Text style={[styles.infoText, isRTL ? { marginRight: 6 } : { marginLeft: 6 }]}>{recipe.cookingTime}{t('mins')}</Text>
             </View>
             <View style={[styles.infoItem, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
               <Ionicons name="globe-outline" size={20} color="#D4AF37" />
-              <Text style={[styles.infoText, isRTL ? { marginRight: 6 } : { marginLeft: 6 }]}>{recipe.origin}</Text>
+              <Text style={[styles.infoText, isRTL ? { marginRight: 6 } : { marginLeft: 6 }]}>{t(recipe.origin)}</Text>
             </View>
             <View style={[styles.infoItem, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
               <Ionicons name="leaf-outline" size={20} color="#D4AF37" />
-              <Text style={[styles.infoText, isRTL ? { marginRight: 6 } : { marginLeft: 6 }]}>{recipe.dietStyle}</Text>
+              <Text style={[styles.infoText, isRTL ? { marginRight: 6 } : { marginLeft: 6 }]}>{t(recipe.dietStyle)}</Text>
             </View>
           </View>
 
@@ -151,7 +151,7 @@ export default function RecipeDetailScreen() {
                 color="#FF6347" 
               />
               <Text style={[styles.actionButtonText, { color: "#FF6347" }, isRTL ? { marginRight: 8 } : { marginLeft: 8 }]}>
-                {isLiked(recipe.id) ? t('liked') : t('like')}
+                {isLiked(recipe.id) ? t('Liked') : t('Like')}
               </Text>
             </TouchableOpacity>
 
@@ -160,12 +160,12 @@ export default function RecipeDetailScreen() {
               onPress={handleAddToPlan}
             >
               <Ionicons name="add-circle-outline" size={22} color="#fff" />
-              <Text style={[styles.actionButtonText, isRTL ? { marginRight: 8 } : { marginLeft: 8 }]}>{t('weeklyPlan')}</Text>
+              <Text style={[styles.actionButtonText, isRTL ? { marginRight: 8 } : { marginLeft: 8 }]}>{t('Weekly Plan')}</Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.section}>
-            <Text style={[styles.sectionTitle, { textAlign: isRTL ? 'right' : 'left' }]}>{t('overview')}</Text>
+            <Text style={[styles.sectionTitle, { textAlign: isRTL ? 'right' : 'left' }]}>{t('Overview')}</Text>
             <Text style={[styles.overview, { textAlign: isRTL ? 'right' : 'left' }]}>{recipe.overview}</Text>
           </View>
 
@@ -178,7 +178,7 @@ export default function RecipeDetailScreen() {
                 onPress={() => setActiveTab(tab as any)}
               >
                 <Text style={[styles.tabText, activeTab === tab && styles.activeTabText]}>
-                  {t(tab)}
+                  {t(tab.charAt(0).toUpperCase() + tab.slice(1))}
                 </Text>
               </TouchableOpacity>
             ))}
@@ -188,7 +188,7 @@ export default function RecipeDetailScreen() {
           {activeTab === 'ingredients' && (
             <View style={styles.section}>
               <View style={[styles.sectionHeader, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
-                <Text style={styles.sectionTitle}>{t('ingredientsChecklist')}</Text>
+                <Text style={styles.sectionTitle}>{t('Ingredients Checklist')}</Text>
                 <Text style={styles.missingCount}>
                   {missingIngredients.length} {t('missing')}
                 </Text>
@@ -203,7 +203,7 @@ export default function RecipeDetailScreen() {
                       onPress={() => setServingSize(size as any)}
                     >
                       <Text style={[styles.servingText, servingSize === size && styles.activeServingText]}>
-                        {t('mealFor')} {size}
+                        {t('meal for')} {size}
                       </Text>
                     </TouchableOpacity>
                   ))}
@@ -213,7 +213,7 @@ export default function RecipeDetailScreen() {
               {recipe.ingredients.map((ingredient, index) => (
                 <IngredientItem
                   key={index}
-                  name={ingredient.name}
+                  name={t(ingredient.name)}
                   quantity={formatScaledQuantity(ingredient.quantity, servingSize)}
                   price={ingredient.price * servingSize}
                   isOwned={ownedIngredients.includes(ingredient.name)}
@@ -225,7 +225,7 @@ export default function RecipeDetailScreen() {
 
           {activeTab === 'steps' && (
             <View style={styles.section}>
-              <Text style={[styles.sectionTitle, { textAlign: isRTL ? 'right' : 'left' }]}>{t('cookingSteps')}</Text>
+              <Text style={[styles.sectionTitle, { textAlign: isRTL ? 'right' : 'left' }]}>{t('Cooking Steps')}</Text>
               {recipe.stages.map((stage, index) => (
                 <View key={stage.id} style={[styles.stepItem, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                   <View style={[styles.stepNumber, isRTL ? { marginLeft: 15, marginRight: 0 } : { marginRight: 15, marginLeft: 0 }]}>
@@ -239,21 +239,21 @@ export default function RecipeDetailScreen() {
               ))}
               <TouchableOpacity 
                 style={[styles.startCookingButton, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}
-                onPress={() => Alert.alert("Coming Soon", "Full screen cooking mode will be available in Phase 3!")}
+                onPress={() => Alert.alert(t("Coming Soon"), t("Full screen cooking mode will be available in Phase 3!"))}
               >
                 <Ionicons name="play-circle" size={24} color="#fff" />
-                <Text style={[styles.startCookingText, isRTL ? { marginRight: 8 } : { marginLeft: 8 }]}>{t('startGuidedCooking')}</Text>
+                <Text style={[styles.startCookingText, isRTL ? { marginRight: 8 } : { marginLeft: 8 }]}>{t('Start Guided Cooking')}</Text>
               </TouchableOpacity>
             </View>
           )}
 
           {activeTab === 'reviews' && (
             <View style={styles.section}>
-              <Text style={[styles.sectionTitle, { textAlign: isRTL ? 'right' : 'left' }]}>{t('communityReviews')}</Text>
+              <Text style={[styles.sectionTitle, { textAlign: isRTL ? 'right' : 'left' }]}>{t('Community Reviews')}</Text>
               
               {/* Write a Review Section */}
               <View style={[styles.writeReviewContainer, { alignItems: isRTL ? 'flex-end' : 'flex-start' }]}>
-                <Text style={styles.subSectionTitle}>{t('rateThisRecipe')}</Text>
+                <Text style={styles.subSectionTitle}>{t('Rate this recipe')}</Text>
                 <View style={[styles.ratingRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                   {[1, 2, 3, 4, 5].map((star) => (
                     <TouchableOpacity key={star} onPress={() => setUserRating(star)}>
@@ -267,13 +267,13 @@ export default function RecipeDetailScreen() {
                 </View>
                 <TextInput
                   style={[styles.reviewInput, { textAlign: isRTL ? 'right' : 'left' }]}
-                  placeholder={t('shareExperience')}
+                  placeholder={t('Share your experience...')}
                   multiline
                   value={newReview}
                   onChangeText={setNewReview}
                 />
                 <TouchableOpacity style={[styles.submitButton, { width: '100%' }]} onPress={handleSubmitReview}>
-                  <Text style={styles.submitButtonText}>{t('submitReview')}</Text>
+                  <Text style={styles.submitButtonText}>{t('Submit Review')}</Text>
                 </TouchableOpacity>
               </View>
 
@@ -299,7 +299,7 @@ export default function RecipeDetailScreen() {
                   </View>
                 ))
               ) : (
-                <Text style={styles.noReviews}>{t('noReviewsYet')}</Text>
+                <Text style={styles.noReviews}>{t('No reviews yet. Be the first!')}</Text>
               )}
             </View>
           )}
@@ -310,11 +310,11 @@ export default function RecipeDetailScreen() {
       {activeTab === 'ingredients' && (
         <View style={[styles.footer, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
           <View style={[styles.footerInfo, { alignItems: isRTL ? 'flex-end' : 'flex-start' }]}>
-            <Text style={styles.totalLabel}>{t('missingTotal')}</Text>
+            <Text style={styles.totalLabel}>{t('Missing Total:')}</Text>
             <Text style={styles.totalPrice}>${totalCost.toFixed(2)}</Text>
           </View>
           <TouchableOpacity style={[styles.orderButton, isRTL ? { marginRight: 15 } : { marginLeft: 15 }]} onPress={handleOrder}>
-            <Text style={styles.orderButtonText}>{t('orderMissingItems')}</Text>
+            <Text style={styles.orderButtonText}>{t('Order Missing Items')}</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -661,4 +661,3 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
 });
-;
