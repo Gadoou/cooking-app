@@ -85,8 +85,9 @@ export default function PlannerScreen() {
           ref={pillsListRef}
           data={DAYS}
           horizontal
+          inverted={isRTL}
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={[styles.pillsScroll, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}
+          contentContainerStyle={styles.pillsScroll}
           keyExtractor={(item) => item}
           renderItem={({ item: day, index }) => (
             <TouchableOpacity 
@@ -110,6 +111,7 @@ export default function PlannerScreen() {
         ref={flatListRef}
         data={DAYS}
         horizontal
+        inverted={isRTL}
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         onMomentumScrollEnd={(ev) => {

@@ -6,8 +6,6 @@ const translations: Record<string, string> = {
   "What do you wanna cook today?": "ماذا تريد أن تطبخ اليوم؟",
   "the choice that matches your time and budget": "الخيار الذي يناسب وقتك وميزانيتك",
   "search by recipe or ingredient": "البحث عن وصفة أو مكون",
-  "Home": "الرئيسية",
-  "Planner": "المخطط",
   "Quick": "سريع",
   "Budget": "ميزانية",
   "Groups": "مجموعات",
