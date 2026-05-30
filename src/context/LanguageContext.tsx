@@ -35,8 +35,8 @@ const translations: Record<string, string> = {
   "No reviews yet. Be the first!": "لا توجد تقييمات بعد. كن أول من يقيم!",
   "Missing Total:": "إجمالي المفقود:",
   "Order Missing Items": "طلب المكونات المفقودة",
-  "Your Week": "خطتك الأسبوعية",
-  "Your Profile": "حسابك الشخصي",
+  "Your Week": "الخطة الأسبوعية",
+  "Your Profile": "حسابي",
   "Your Favorites": "وصفاتي المفضلة",
   "You haven't liked any recipes yet.": "لم تعجب بأي وصفات بعد.",
   "Grocery List": "قائمة المشتريات",
@@ -64,6 +64,12 @@ const translations: Record<string, string> = {
   "Lunch": "الغداء",
   "Dinner": "العشاء",
   "Tap to add a meal": "اضغط لإضافة وجبة",
+
+  // Navigation
+  "Home": "الرئيسية",
+  "My Recipes": "وصفاتي",
+  "Planner": "الخطة",
+  "Profile": "حسابي",
 
   // Filter Modal
   "Cooking Time": "وقت الطبخ",
