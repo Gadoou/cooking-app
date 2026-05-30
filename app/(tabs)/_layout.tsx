@@ -1,8 +1,11 @@
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Platform } from 'react-native';
+import { useLanguage } from '@/src/context/LanguageContext';
 
 export default function TabLayout() {
+  const { t, isRTL } = useLanguage();
+
   return (
     <Tabs
       screenOptions={{
@@ -15,6 +18,7 @@ export default function TabLayout() {
           height: Platform.OS === 'ios' ? 85 : 70,
           paddingBottom: Platform.OS === 'ios' ? 25 : 10,
           paddingTop: 10,
+          flexDirection: isRTL ? 'row-reverse' : 'row',
         },
         tabBarLabelStyle: {
           fontSize: 12,
@@ -25,28 +29,28 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: t('Home'),
           tabBarIcon: ({ color }) => <Ionicons name="home" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
         name="my-recipes"
         options={{
-          title: 'My Recipes',
+          title: t('My Recipes'),
           tabBarIcon: ({ color }) => <Ionicons name="heart" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
         name="planner"
         options={{
-          title: 'Planner',
+          title: t('Planner'),
           tabBarIcon: ({ color }) => <Ionicons name="calendar" size={24} color={color} />,
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Profile',
+          title: t('Profile'),
           tabBarIcon: ({ color }) => <Ionicons name="person" size={24} color={color} />,
         }}
       />
