@@ -25,12 +25,15 @@ interface ConsolidatedIngredient {
   price: number;
 }
 
+import { useLanguage } from '@/src/context/LanguageContext';
+
 export const GroceryListModal: React.FC<GroceryListModalProps> = ({
   visible,
   onClose,
   dayRecipes,
   weekRecipes,
 }) => {
+  const { isRTL, t } = useLanguage();
   const [showFullWeek, setShowFullWeek] = useState(false);
   const [ownedItems, setOwnedItems] = useState<Record<string, boolean>>({});
 
@@ -102,8 +105,8 @@ export const GroceryListModal: React.FC<GroceryListModalProps> = ({
 
   const handlePlaceOrder = () => {
     Alert.alert(
-      'Order Placed',
-      `Your order for $${totalPrice.toFixed(2)} has been placed successfully!`,
+      t('Order Placed'),
+      `${t('Your order for')} $${totalPrice.toFixed(2)} ${t('has been placed successfully!')}`,
       [{ text: 'OK', onPress: onClose }]
     );
   };
@@ -111,22 +114,22 @@ export const GroceryListModal: React.FC<GroceryListModalProps> = ({
   return (
     <Modal visible={visible} animationType="slide" presentationStyle="fullScreen">
       <SafeAreaView style={styles.container}>
-        <View style={styles.header}>
+        <View style={[styles.header, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
           <TouchableOpacity onPress={onClose} style={styles.closeButton}>
             <Ionicons name="close" size={28} color="#333" />
           </TouchableOpacity>
-          <Text style={styles.title}>Grocery List</Text>
+          <Text style={styles.title}>{t('Grocery List')}</Text>
           <View style={{ width: 28 }} />
         </View>
 
         <View style={styles.toggleContainer}>
-          <View style={styles.segmentedControl}>
+          <View style={[styles.segmentedControl, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
             <TouchableOpacity 
               style={[styles.segmentButton, !showFullWeek && styles.activeSegment]} 
               onPress={() => setShowFullWeek(false)}
             >
               <Text style={[styles.segmentText, !showFullWeek && styles.activeSegmentText]}>
-                Today's check out
+                {t("Today's check out")}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity 
@@ -134,7 +137,7 @@ export const GroceryListModal: React.FC<GroceryListModalProps> = ({
               onPress={() => setShowFullWeek(true)}
             >
               <Text style={[styles.segmentText, showFullWeek && styles.activeSegmentText]}>
-                The whole week
+                {t("The whole week")}
               </Text>
             </TouchableOpacity>
           </View>
@@ -146,23 +149,23 @@ export const GroceryListModal: React.FC<GroceryListModalProps> = ({
           contentContainerStyle={styles.listContent}
           renderItem={({ item }) => (
             <TouchableOpacity
-              style={styles.itemRow}
+              style={[styles.itemRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}
               onPress={() => toggleItemOwned(item.name)}
             >
-              <View style={styles.itemInfo}>
+              <View style={[styles.itemInfo, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                 <Ionicons
                   name={ownedItems[item.name] ? 'checkbox' : 'square-outline'}
                   size={24}
                   color={ownedItems[item.name] ? '#FF6347' : '#CCC'}
                 />
-                <View style={styles.textContainer}>
+                <View style={[styles.textContainer, isRTL ? { marginRight: 12 } : { marginLeft: 12 }, { alignItems: isRTL ? 'flex-end' : 'flex-start' }]}>
                   <Text
                     style={[
                       styles.itemName,
                       ownedItems[item.name] && styles.strikethrough,
                     ]}
                   >
-                    {item.name}
+                    {t(item.name)}
                   </Text>
                   <Text style={styles.itemQuantity}>{item.quantity}</Text>
                 </View>
@@ -172,14 +175,14 @@ export const GroceryListModal: React.FC<GroceryListModalProps> = ({
           )}
           ListEmptyComponent={
             <View style={styles.emptyContainer}>
-              <Text style={styles.emptyText}>No ingredients found in plan.</Text>
+              <Text style={styles.emptyText}>{t("No ingredients found in plan.")}</Text>
             </View>
           }
         />
 
         <View style={styles.footer}>
-          <View style={styles.totalRow}>
-            <Text style={styles.totalLabel}>Total to Buy:</Text>
+          <View style={[styles.totalRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+            <Text style={styles.totalLabel}>{t("Total to Buy:")}</Text>
             <Text style={styles.totalAmount}>${totalPrice.toFixed(2)}</Text>
           </View>
           <TouchableOpacity
@@ -190,7 +193,7 @@ export const GroceryListModal: React.FC<GroceryListModalProps> = ({
             onPress={handlePlaceOrder}
             disabled={totalPrice === 0}
           >
-            <Text style={styles.orderButtonText}>Place Order</Text>
+            <Text style={styles.orderButtonText}>{t("Place Order")}</Text>
           </TouchableOpacity>
         </View>
       </SafeAreaView>

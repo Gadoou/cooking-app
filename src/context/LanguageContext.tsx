@@ -48,6 +48,17 @@ const translations: Record<string, string> = {
   "Select Day": "اختر اليوم",
   "Select Slot": "اختر الوجبة",
 
+  // Stats
+  "Meals": "وجبات",
+  "Total Cost": "إجمالي التكلفة",
+  "Avg. Time": "متوسط الوقت",
+
+  // Grocery List
+  "Total to Buy:": "إجمالي الشراء:",
+  "No ingredients found in plan.": "لا توجد مكونات في الخطة.",
+  "Your order for": "طلبك بقيمة",
+  "has been placed successfully!": "تم بنجاح!",
+
   // Days
   "Monday": "الاثنين",
   "Tuesday": "الثلاثاء",

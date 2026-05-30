@@ -3,8 +3,11 @@ import { View, Text, StyleSheet } from 'react-native';
 import { usePlanner } from '@/src/context/PlannerContext';
 import { MOCK_RECIPES } from '@/src/data/mockRecipes';
 
+import { useLanguage } from '@/src/context/LanguageContext';
+
 export const PlannerStats = () => {
   const { weekEntries } = usePlanner();
+  const { isRTL, t } = useLanguage();
 
   const stats = useMemo(() => {
     const allIds = Object.values(weekEntries).flatMap(day => [
@@ -23,18 +26,18 @@ export const PlannerStats = () => {
   }, [weekEntries]);
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
       <View style={styles.stat}>
         <Text style={styles.value}>{stats.count}</Text>
-        <Text style={styles.label}>Meals</Text>
+        <Text style={styles.label}>{t('Meals')}</Text>
       </View>
       <View style={[styles.stat, styles.border]}>
         <Text style={styles.value}>$ {stats.totalCost.toFixed(2)}</Text>
-        <Text style={styles.label}>Total Cost</Text>
+        <Text style={styles.label}>{t('Total Cost')}</Text>
       </View>
       <View style={styles.stat}>
-        <Text style={styles.value}>{Math.round(stats.avgTime)}m</Text>
-        <Text style={styles.label}>Avg. Time</Text>
+        <Text style={styles.value}>{Math.round(stats.avgTime)}{t('mins')}</Text>
+        <Text style={styles.label}>{t('Avg. Time')}</Text>
       </View>
     </View>
   );
