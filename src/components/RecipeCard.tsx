@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { Recipe } from '../types';
+import { useLanguage } from '@/src/context/LanguageContext';
 
 interface RecipeCardProps {
   recipe: Recipe;
@@ -9,6 +10,7 @@ interface RecipeCardProps {
 
 export const RecipeCard = ({ recipe }: RecipeCardProps) => {
   const router = useRouter();
+  const { isRTL } = useLanguage();
 
   const handlePress = () => {
     router.push({
@@ -26,12 +28,12 @@ export const RecipeCard = ({ recipe }: RecipeCardProps) => {
           <Ionicons name="fast-food-outline" size={40} color="#D4AF37" />
         )}
       </View>
-      <View style={styles.info}>
-        <Text style={styles.title} numberOfLines={1}>{recipe.title}</Text>
-        <View style={styles.footer}>
-          <View style={styles.stat}>
+      <View style={[styles.info, { alignItems: isRTL ? 'flex-end' : 'flex-start' }]}>
+        <Text style={[styles.title, { textAlign: isRTL ? 'right' : 'left' }]} numberOfLines={1}>{recipe.title}</Text>
+        <View style={[styles.footer, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+          <View style={[styles.stat, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
             <Ionicons name="heart" size={14} color="#FF6347" />
-            <Text style={styles.statText}>{recipe.likes}</Text>
+            <Text style={[styles.statText, isRTL ? { marginRight: 4 } : { marginLeft: 4 }]}>{recipe.likes}</Text>
           </View>
           <Text style={styles.statText}>{recipe.cookingTime}m</Text>
         </View>

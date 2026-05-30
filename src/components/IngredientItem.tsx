@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useLanguage } from '@/src/context/LanguageContext';
 
 interface IngredientItemProps {
   name: string;
@@ -9,27 +10,30 @@ interface IngredientItemProps {
   onToggle: () => void;
 }
 
-export const IngredientItem = ({ name, quantity, price, isOwned, onToggle }: IngredientItemProps) => (
-  <TouchableOpacity 
-    style={[styles.item, isOwned && styles.owned]} 
-    onPress={onToggle}
-    activeOpacity={0.7}
-  >
-    <Ionicons 
-      name={isOwned ? "checkbox" : "square-outline"} 
-      size={24} 
-      color={isOwned ? "#D4AF37" : "#ccc"} 
-    />
-    <View style={styles.info}>
-      <View style={styles.leftInfo}>
-        <Text style={[styles.name, isOwned && styles.strike]}>{name}</Text>
-        <Text style={styles.quantity}>{quantity}</Text>
-      </View>
-      <Text style={[styles.price, isOwned && styles.strike]}>${price.toFixed(2)}</Text>
-    </View>
-  </TouchableOpacity>
-);
+export const IngredientItem = ({ name, quantity, price, isOwned, onToggle }: IngredientItemProps) => {
+  const { isRTL } = useLanguage();
 
+  return (
+    <TouchableOpacity 
+      style={[styles.item, isOwned && styles.owned, { flexDirection: isRTL ? 'row-reverse' : 'row' }]} 
+      onPress={onToggle}
+      activeOpacity={0.7}
+    >
+      <Ionicons 
+        name={isOwned ? "checkbox" : "square-outline"} 
+        size={24} 
+        color={isOwned ? "#D4AF37" : "#ccc"} 
+      />
+      <View style={[styles.info, isRTL ? { marginRight: 12, marginLeft: 0 } : { marginLeft: 12, marginRight: 0 }, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+        <View style={[styles.leftInfo, { alignItems: isRTL ? 'flex-end' : 'flex-start' }]}>
+          <Text style={[styles.name, isOwned && styles.strike, { textAlign: isRTL ? 'right' : 'left' }]}>{name}</Text>
+          <Text style={[styles.quantity, { textAlign: isRTL ? 'right' : 'left' }]}>{quantity}</Text>
+        </View>
+        <Text style={[styles.price, isOwned && styles.strike]}>${price.toFixed(2)}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+};
 const styles = StyleSheet.create({
   item: { 
     flexDirection: 'row', 

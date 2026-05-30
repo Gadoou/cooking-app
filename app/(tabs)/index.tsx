@@ -6,6 +6,7 @@ import { CategoryButton } from '@/src/components/CategoryButton';
 import { RecipeCard } from '@/src/components/RecipeCard';
 import { AppHeader } from '@/src/components/AppHeader';
 import { FilterModal, FilterState } from '@/src/components/FilterModal';
+import { useLanguage } from '@/src/context/LanguageContext';
 
 const CATEGORIES = [
   { id: 'quick', label: 'Quick', icon: 'timer-outline' },
@@ -25,6 +26,7 @@ const INITIAL_FILTERS: FilterState = {
 };
 
 export default function HomeScreen() {
+  const { t, isRTL } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   const [activeFilters, setActiveFilters] = useState<FilterState>(INITIAL_FILTERS);
@@ -96,19 +98,28 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <AppHeader welcomeText="Welcome, Foodie!" />
+      <AppHeader welcomeText={t('welcomeFoodie')} />
       
-      <View style={styles.titleContainer}>
-        <Text style={styles.mainTitle}>What do you wanna cook today?</Text>
-        <Text style={styles.subTitle}>the choice that matches your time and budget</Text>
+      <View style={[styles.titleContainer, { alignItems: isRTL ? 'flex-end' : 'flex-start' }]}>
+        <Text style={[styles.mainTitle, { textAlign: isRTL ? 'right' : 'left' }]}>
+          {t('mainTitle')}
+        </Text>
+        <Text style={[styles.subTitle, { textAlign: isRTL ? 'right' : 'left' }]}>
+          {t('subTitle')}
+        </Text>
       </View>
 
       {/* Search Bar */}
-      <View style={styles.searchContainer}>
-        <Ionicons name="search" size={20} color="#666" style={styles.searchIcon} />
+      <View style={[styles.searchContainer, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+        <Ionicons 
+          name="search" 
+          size={20} 
+          color="#666" 
+          style={isRTL ? { marginLeft: 8 } : { marginRight: 8 }} 
+        />
         <TextInput
-          style={styles.searchInput}
-          placeholder="search by recipe or ingredient"
+          style={[styles.searchInput, { textAlign: isRTL ? 'right' : 'left' }]}
+          placeholder={t('searchPlaceholder')}
           placeholderTextColor="#999"
           value={searchQuery}
           onChangeText={setSearchQuery}
@@ -117,11 +128,11 @@ export default function HomeScreen() {
 
       {/* Category Filters - No Scrolling */}
       <View style={styles.filtersWrapper}>
-        <View style={styles.filtersRow}>
+        <View style={[styles.filtersRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
           {CATEGORIES.map(cat => (
             <CategoryButton
               key={cat.id}
-              label={cat.label}
+              label={t(cat.id)}
               iconName={cat.icon}
               active={isCategoryActive(cat.id)}
               onPress={() => handleCategoryPress(cat.id)}
@@ -131,7 +142,9 @@ export default function HomeScreen() {
       </View>
 
       {/* Suggested Recipes */}
-      <Text style={styles.sectionTitle}>Suggested Recipes</Text>
+      <Text style={[styles.sectionTitle, { textAlign: isRTL ? 'right' : 'left' }]}>
+        {t('suggestedRecipes')}
+      </Text>
       <FlatList
         data={filteredRecipes}
         keyExtractor={(item) => item.id}

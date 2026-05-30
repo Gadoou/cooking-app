@@ -9,6 +9,7 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/components/useColorScheme';
 import { AppProvider } from '@/src/context/AppContext';
 import { PlannerProvider } from '@/src/context/PlannerContext';
+import { LanguageProvider } from '@/src/context/LanguageContext';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -44,11 +45,13 @@ export default function RootLayout() {
   }
 
   return (
-    <AppProvider>
-      	<PlannerProvider>
-      <RootLayoutNav />
-    	</PlannerProvider>
-    </AppProvider>
+    <LanguageProvider>
+      <AppProvider>
+        <PlannerProvider>
+          <RootLayoutNav />
+        </PlannerProvider>
+      </AppProvider>
+    </LanguageProvider>
   );
 }
 

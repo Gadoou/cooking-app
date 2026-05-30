@@ -8,8 +8,10 @@ import { usePlanner } from '@/src/context/PlannerContext';
 import { IngredientItem } from '@/src/components/IngredientItem';
 import { AddToPlanModal } from '@/src/components/AddToPlanModal';
 import { MealSlot } from '@/src/types';
+import { useLanguage } from '@/src/context/LanguageContext';
 
 export default function RecipeDetailScreen() {
+  const { t, isRTL } = useLanguage();
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const { isLiked, toggleLike } = useAppContext();
@@ -27,7 +29,7 @@ export default function RecipeDetailScreen() {
   if (!recipe) {
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={styles.errorText}>Recipe not found</Text>
+        <Text style={styles.errorText}>{t('recipeNotFound')}</Text>
       </SafeAreaView>
     );
   }
@@ -86,7 +88,7 @@ export default function RecipeDetailScreen() {
     <SafeAreaView style={styles.container}>
       <Stack.Screen 
         options={{ 
-          title: 'Recipe Details',
+          title: t('recipeDetails'),
           headerShown: true,
           headerStyle: { backgroundColor: '#F5F5F0' },
           headerTintColor: '#000',
@@ -108,25 +110,25 @@ export default function RecipeDetailScreen() {
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.content}>
-          <Text style={styles.title}>{recipe.title}</Text>
+          <Text style={[styles.title, { textAlign: isRTL ? 'right' : 'left' }]}>{recipe.title}</Text>
           
           {/* Info Bar */}
-          <View style={styles.infoBar}>
-            <View style={styles.infoItem}>
+          <View style={[styles.infoBar, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+            <View style={[styles.infoItem, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
               <Ionicons name="cash-outline" size={20} color="#D4AF37" />
-              <Text style={styles.infoText}>${recipe.cost}</Text>
+              <Text style={[styles.infoText, isRTL ? { marginRight: 6 } : { marginLeft: 6 }]}>${recipe.cost}</Text>
             </View>
-            <View style={styles.infoItem}>
+            <View style={[styles.infoItem, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
               <Ionicons name="timer-outline" size={20} color="#D4AF37" />
-              <Text style={styles.infoText}>{recipe.cookingTime}m</Text>
+              <Text style={[styles.infoText, isRTL ? { marginRight: 6 } : { marginLeft: 6 }]}>{recipe.cookingTime}m</Text>
             </View>
-            <View style={styles.infoItem}>
+            <View style={[styles.infoItem, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
               <Ionicons name="globe-outline" size={20} color="#D4AF37" />
-              <Text style={styles.infoText}>{recipe.origin}</Text>
+              <Text style={[styles.infoText, isRTL ? { marginRight: 6 } : { marginLeft: 6 }]}>{recipe.origin}</Text>
             </View>
-            <View style={styles.infoItem}>
+            <View style={[styles.infoItem, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
               <Ionicons name="leaf-outline" size={20} color="#D4AF37" />
-              <Text style={styles.infoText}>{recipe.dietStyle}</Text>
+              <Text style={[styles.infoText, isRTL ? { marginRight: 6 } : { marginLeft: 6 }]}>{recipe.dietStyle}</Text>
             </View>
           </View>
 
@@ -138,9 +140,9 @@ export default function RecipeDetailScreen() {
             )}
           </View>
 
-          <View style={styles.actionRow}>
+          <View style={[styles.actionRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
             <TouchableOpacity 
-              style={[styles.actionButton, styles.likeButton]} 
+              style={[styles.actionButton, styles.likeButton, { flexDirection: isRTL ? 'row-reverse' : 'row' }]} 
               onPress={() => toggleLike(recipe.id)}
             >
               <Ionicons 
@@ -148,27 +150,27 @@ export default function RecipeDetailScreen() {
                 size={22} 
                 color="#FF6347" 
               />
-              <Text style={[styles.actionButtonText, { color: "#FF6347" }]}>
-                {isLiked(recipe.id) ? "Liked" : "Like"}
+              <Text style={[styles.actionButtonText, { color: "#FF6347" }, isRTL ? { marginRight: 8 } : { marginLeft: 8 }]}>
+                {isLiked(recipe.id) ? t('liked') : t('like')}
               </Text>
             </TouchableOpacity>
 
             <TouchableOpacity 
-              style={[styles.actionButton, styles.planButton]} 
+              style={[styles.actionButton, styles.planButton, { flexDirection: isRTL ? 'row-reverse' : 'row' }]} 
               onPress={handleAddToPlan}
             >
               <Ionicons name="add-circle-outline" size={22} color="#fff" />
-              <Text style={styles.actionButtonText}>Weekly Plan</Text>
+              <Text style={[styles.actionButtonText, isRTL ? { marginRight: 8 } : { marginLeft: 8 }]}>{t('weeklyPlan')}</Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Overview</Text>
-            <Text style={styles.overview}>{recipe.overview}</Text>
+            <Text style={[styles.sectionTitle, { textAlign: isRTL ? 'right' : 'left' }]}>{t('overview')}</Text>
+            <Text style={[styles.overview, { textAlign: isRTL ? 'right' : 'left' }]}>{recipe.overview}</Text>
           </View>
 
           {/* Tab Switcher */}
-          <View style={styles.tabContainer}>
+          <View style={[styles.tabContainer, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
             {['ingredients', 'steps', 'reviews'].map((tab) => (
               <TouchableOpacity 
                 key={tab}
@@ -176,7 +178,7 @@ export default function RecipeDetailScreen() {
                 onPress={() => setActiveTab(tab as any)}
               >
                 <Text style={[styles.tabText, activeTab === tab && styles.activeTabText]}>
-                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                  {t(tab)}
                 </Text>
               </TouchableOpacity>
             ))}
@@ -185,15 +187,15 @@ export default function RecipeDetailScreen() {
           {/* Conditional Content Rendering */}
           {activeTab === 'ingredients' && (
             <View style={styles.section}>
-              <View style={styles.sectionHeader}>
-                <Text style={styles.sectionTitle}>Ingredients Checklist</Text>
+              <View style={[styles.sectionHeader, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                <Text style={styles.sectionTitle}>{t('ingredientsChecklist')}</Text>
                 <Text style={styles.missingCount}>
-                  {missingIngredients.length} missing
+                  {missingIngredients.length} {t('missing')}
                 </Text>
               </View>
               
               <View style={styles.servingToggleContainer}>
-                <View style={styles.servingControl}>
+                <View style={[styles.servingControl, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                   {[1, 2, 4].map((size) => (
                     <TouchableOpacity 
                       key={size}
@@ -201,7 +203,7 @@ export default function RecipeDetailScreen() {
                       onPress={() => setServingSize(size as any)}
                     >
                       <Text style={[styles.servingText, servingSize === size && styles.activeServingText]}>
-                        meal for {size}
+                        {t('mealFor')} {size}
                       </Text>
                     </TouchableOpacity>
                   ))}
@@ -223,36 +225,36 @@ export default function RecipeDetailScreen() {
 
           {activeTab === 'steps' && (
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Cooking Steps</Text>
+              <Text style={[styles.sectionTitle, { textAlign: isRTL ? 'right' : 'left' }]}>{t('cookingSteps')}</Text>
               {recipe.stages.map((stage, index) => (
-                <View key={stage.id} style={styles.stepItem}>
-                  <View style={styles.stepNumber}>
+                <View key={stage.id} style={[styles.stepItem, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+                  <View style={[styles.stepNumber, isRTL ? { marginLeft: 15, marginRight: 0 } : { marginRight: 15, marginLeft: 0 }]}>
                     <Text style={styles.stepNumberText}>{index + 1}</Text>
                   </View>
-                  <View style={styles.stepContent}>
-                    <Text style={styles.stepDescription}>{stage.textDescription}</Text>
-                    <Text style={styles.stepTime}>{stage.timeNeeded} mins</Text>
+                  <View style={[styles.stepContent, { alignItems: isRTL ? 'flex-end' : 'flex-start' }]}>
+                    <Text style={[styles.stepDescription, { textAlign: isRTL ? 'right' : 'left' }]}>{stage.textDescription}</Text>
+                    <Text style={styles.stepTime}>{stage.timeNeeded} {t('mins')}</Text>
                   </View>
                 </View>
               ))}
               <TouchableOpacity 
-                style={styles.startCookingButton}
+                style={[styles.startCookingButton, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}
                 onPress={() => Alert.alert("Coming Soon", "Full screen cooking mode will be available in Phase 3!")}
               >
                 <Ionicons name="play-circle" size={24} color="#fff" />
-                <Text style={styles.startCookingText}>Start Guided Cooking</Text>
+                <Text style={[styles.startCookingText, isRTL ? { marginRight: 8 } : { marginLeft: 8 }]}>{t('startGuidedCooking')}</Text>
               </TouchableOpacity>
             </View>
           )}
 
           {activeTab === 'reviews' && (
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Community Reviews</Text>
+              <Text style={[styles.sectionTitle, { textAlign: isRTL ? 'right' : 'left' }]}>{t('communityReviews')}</Text>
               
               {/* Write a Review Section */}
-              <View style={styles.writeReviewContainer}>
-                <Text style={styles.subSectionTitle}>Rate this recipe</Text>
-                <View style={styles.ratingRow}>
+              <View style={[styles.writeReviewContainer, { alignItems: isRTL ? 'flex-end' : 'flex-start' }]}>
+                <Text style={styles.subSectionTitle}>{t('rateThisRecipe')}</Text>
+                <View style={[styles.ratingRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                   {[1, 2, 3, 4, 5].map((star) => (
                     <TouchableOpacity key={star} onPress={() => setUserRating(star)}>
                       <Ionicons 
@@ -264,14 +266,14 @@ export default function RecipeDetailScreen() {
                   ))}
                 </View>
                 <TextInput
-                  style={styles.reviewInput}
-                  placeholder="Share your experience..."
+                  style={[styles.reviewInput, { textAlign: isRTL ? 'right' : 'left' }]}
+                  placeholder={t('shareExperience')}
                   multiline
                   value={newReview}
                   onChangeText={setNewReview}
                 />
-                <TouchableOpacity style={styles.submitButton} onPress={handleSubmitReview}>
-                  <Text style={styles.submitButtonText}>Submit Review</Text>
+                <TouchableOpacity style={[styles.submitButton, { width: '100%' }]} onPress={handleSubmitReview}>
+                  <Text style={styles.submitButtonText}>{t('submitReview')}</Text>
                 </TouchableOpacity>
               </View>
 
@@ -279,9 +281,9 @@ export default function RecipeDetailScreen() {
               {recipe.reviews.length > 0 ? (
                 recipe.reviews.map((review) => (
                   <View key={review.id} style={styles.reviewItem}>
-                    <View style={styles.reviewHeader}>
+                    <View style={[styles.reviewHeader, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                       <Text style={styles.userName}>{review.user}</Text>
-                      <View style={styles.ratingStars}>
+                      <View style={[styles.ratingStars, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
                         {[...Array(5)].map((_, i) => (
                           <Ionicons 
                             key={i} 
@@ -292,12 +294,12 @@ export default function RecipeDetailScreen() {
                         ))}
                       </View>
                     </View>
-                    <Text style={styles.reviewDate}>{review.date}</Text>
-                    <Text style={styles.reviewComment}>{review.comment}</Text>
+                    <Text style={[styles.reviewDate, { textAlign: isRTL ? 'right' : 'left' }]}>{review.date}</Text>
+                    <Text style={[styles.reviewComment, { textAlign: isRTL ? 'right' : 'left' }]}>{review.comment}</Text>
                   </View>
                 ))
               ) : (
-                <Text style={styles.noReviews}>No reviews yet. Be the first!</Text>
+                <Text style={styles.noReviews}>{t('noReviewsYet')}</Text>
               )}
             </View>
           )}
@@ -306,13 +308,13 @@ export default function RecipeDetailScreen() {
 
       {/* Cart Footer - Only show if Ingredients tab is active */}
       {activeTab === 'ingredients' && (
-        <View style={styles.footer}>
-          <View style={styles.footerInfo}>
-            <Text style={styles.totalLabel}>Missing Total:</Text>
+        <View style={[styles.footer, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+          <View style={[styles.footerInfo, { alignItems: isRTL ? 'flex-end' : 'flex-start' }]}>
+            <Text style={styles.totalLabel}>{t('missingTotal')}</Text>
             <Text style={styles.totalPrice}>${totalCost.toFixed(2)}</Text>
           </View>
-          <TouchableOpacity style={styles.orderButton} onPress={handleOrder}>
-            <Text style={styles.orderButtonText}>Order Missing Items</Text>
+          <TouchableOpacity style={[styles.orderButton, isRTL ? { marginRight: 15 } : { marginLeft: 15 }]} onPress={handleOrder}>
+            <Text style={styles.orderButtonText}>{t('orderMissingItems')}</Text>
           </TouchableOpacity>
         </View>
       )}

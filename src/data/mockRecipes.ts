@@ -31,7 +31,7 @@ export const MOCK_RECIPES: Recipe[] = [
     likes: 2850,
     origin: 'Asian',
     cookingTime: 25,
-    dietStyle: 'Protein',
+    dietStyle: 'protein',
     ingredients: [
       { name: 'Chicken', quantity: '250g', price: 5.0, imageName: 'chicken', isOwned: false },
       { name: 'Rice', quantity: '100g', price: 1.0, imageName: 'rice', isOwned: false },
@@ -52,7 +52,7 @@ export const MOCK_RECIPES: Recipe[] = [
     likes: 1450,
     origin: 'Indian',
     cookingTime: 20,
-    dietStyle: 'Balanced',
+    dietStyle: 'vegan',
     ingredients: [
       { name: 'Quinoa', quantity: '150g', price: 3.0, imageName: 'quinoa', isOwned: false },
       { name: 'Cucumber', quantity: '1 large', price: 1.0, imageName: 'cucumber', isOwned: false },
@@ -71,7 +71,7 @@ export const MOCK_RECIPES: Recipe[] = [
     likes: 3100,
     origin: 'Egyptian',
     cookingTime: 40,
-    dietStyle: 'Balanced',
+    dietStyle: 'group',
     ingredients: [
       { name: 'Beef', quantity: '1kg', price: 12.0, imageName: 'beef', isOwned: false },
       { name: 'Tortillas', quantity: '24 units', price: 5.0, imageName: 'tortilla', isOwned: false },
@@ -92,7 +92,7 @@ export const MOCK_RECIPES: Recipe[] = [
     likes: 1600,
     origin: 'Egyptian',
     cookingTime: 45,
-    dietStyle: 'Healthy',
+    dietStyle: 'lowCal',
     ingredients: [
       { name: 'Lentils', quantity: '500g', price: 2.0, imageName: 'lentils', isOwned: false },
       { name: 'Carrots', quantity: '3 units', price: 1.0, imageName: 'carrots', isOwned: false },
@@ -111,7 +111,7 @@ export const MOCK_RECIPES: Recipe[] = [
     likes: 2500,
     origin: 'Asian',
     cookingTime: 18,
-    dietStyle: 'Protein',
+    dietStyle: 'protein',
     ingredients: [
       { name: 'Salmon', quantity: '2 steaks', price: 15.0, imageName: 'salmon', isOwned: false },
       { name: 'Butter', quantity: '50g', price: 2.0, imageName: 'butter', isOwned: false },

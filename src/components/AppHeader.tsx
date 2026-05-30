@@ -1,21 +1,33 @@
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useLanguage } from '@/src/context/LanguageContext';
 
-export const AppHeader = ({ welcomeText, rightElement }: { welcomeText: string; rightElement?: React.ReactNode }) => (
-  <View style={styles.header}>
-    <View style={styles.topRow}>
-      <View style={styles.logoContainer}>
-        <Image 
-          source={require('@/assets/images/brandlogo2.jpeg')} 
-          style={styles.brandLogo} 
-          resizeMode="contain" 
-        />
+export const AppHeader = ({ welcomeText, rightElement }: { welcomeText: string; rightElement?: React.ReactNode }) => {
+  const { isRTL, toggleLayout, t } = useLanguage();
+
+  return (
+    <View style={styles.header}>
+      <View style={[styles.topRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
+        <View style={styles.logoContainer}>
+          <Image 
+            source={require('@/assets/images/brandlogo2.jpeg')} 
+            style={styles.brandLogo} 
+            resizeMode="contain" 
+          />
+        </View>
+        <View style={styles.headerRight}>
+          {rightElement}
+          <TouchableOpacity style={styles.langToggle} onPress={toggleLayout}>
+            <Text style={styles.langText}>{isRTL ? 'EN' : 'AR'}</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      {rightElement}
+      <Text style={[styles.welcome, { textAlign: isRTL ? 'right' : 'left' }]}>
+        {t(welcomeText)}
+      </Text>
     </View>
-    <Text style={styles.welcome}>{welcomeText}</Text>
-  </View>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   header: {
@@ -37,6 +49,22 @@ const styles = StyleSheet.create({
   brandLogo: {
     height: 86,
     width: 303, // Adjust width based on typical logo proportions, contain will handle the rest
+  },
+  headerRight: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  langToggle: {
+    marginLeft: 15,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 12,
+    backgroundColor: '#E5E5E0'
+  },
+  langText: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: '#666'
   },
   welcome: {
     fontSize: 16,
