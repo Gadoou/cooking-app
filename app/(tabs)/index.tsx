@@ -98,14 +98,14 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <AppHeader welcomeText={t('welcomeFoodie')} />
+      <AppHeader welcomeText="Welcome, Foodie!" />
       
       <View style={[styles.titleContainer, { alignItems: isRTL ? 'flex-end' : 'flex-start' }]}>
         <Text style={[styles.mainTitle, { textAlign: isRTL ? 'right' : 'left' }]}>
-          {t('mainTitle')}
+          {t('What do you wanna cook today?')}
         </Text>
         <Text style={[styles.subTitle, { textAlign: isRTL ? 'right' : 'left' }]}>
-          {t('subTitle')}
+          {t('the choice that matches your time and budget')}
         </Text>
       </View>
 
@@ -119,7 +119,7 @@ export default function HomeScreen() {
         />
         <TextInput
           style={[styles.searchInput, { textAlign: isRTL ? 'right' : 'left' }]}
-          placeholder={t('searchPlaceholder')}
+          placeholder={t('search by recipe or ingredient')}
           placeholderTextColor="#999"
           value={searchQuery}
           onChangeText={setSearchQuery}
@@ -132,7 +132,7 @@ export default function HomeScreen() {
           {CATEGORIES.map(cat => (
             <CategoryButton
               key={cat.id}
-              label={t(cat.id)}
+              label={t(cat.label)}
               iconName={cat.icon}
               active={isCategoryActive(cat.id)}
               onPress={() => handleCategoryPress(cat.id)}
@@ -143,7 +143,7 @@ export default function HomeScreen() {
 
       {/* Suggested Recipes */}
       <Text style={[styles.sectionTitle, { textAlign: isRTL ? 'right' : 'left' }]}>
-        {t('suggestedRecipes')}
+        {t('Suggested Recipes')}
       </Text>
       <FlatList
         data={filteredRecipes}
@@ -189,12 +189,17 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#FFF',
     marginHorizontal: 16,
     marginVertical: 15,
     paddingHorizontal: 12,
     borderRadius: 12,
-    height: 45
+    height: 45,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
   },
   searchIcon: {
     marginRight: 8

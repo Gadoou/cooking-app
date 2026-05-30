@@ -48,7 +48,7 @@ export const RecipeCard = ({ recipe }: RecipeCardProps) => {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#F5F5F0',
+    backgroundColor: '#FFF',
     borderRadius: 12,
     margin: 8,
     flex: 1,
