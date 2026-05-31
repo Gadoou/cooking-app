@@ -130,6 +130,23 @@ const translations: Record<string, string> = {
   "Kafta": "كفته",
   "Thanksgiving Turkey": "ديك رومي",
   "Steak": "ستيك",
+  "Potato": "بطاطس",
+  "Milk": "حليب",
+  "Oil": "زيت",
+  "Pepper": "فلفل",
+  "Black Pepper": "فلفل أسود",
+
+  // Steak Steps
+  "Steak with Mashed Potatoes: A perfectly seared sirloin paired with creamy, buttery mashed potatoes.": "ستيك مع بطاطس مهروسة: سيرلوين مشوي بإتقان مع بطاطس مهروسة كريمية بالزبدة.",
+  "Take the steak out of the fridge 20–30 minutes before cooking. Prep all other items.": "أخرج الستيك من الثلاجة قبل ٢٠-٣٠ دقيقة من الطبخ. جهز باقي المكونات.",
+  "Dry the steak very well. Season both sides with salt and black pepper.": "جفف الستيك جيداً. تبل الجانبين بالملح والفلفل الأسود.",
+  "Heat pan on high. Add oil and wait until hot and shiny.": "سخن المقلاة على نار عالية. أضف الزيت وانتظر حتى يسخن ويلمع.",
+  "Place steak in pan. Let sear for 2–3 minutes until it gets a brown crust.": "ضع الستيك في المقلاة. اتركه يتشوح لمدة ٢-٣ دقائق حتى تتكون قشرة بنية.",
+  "Flip steak. Add butter, garlic, and herbs. Baste the steak for 2–3 minutes.": "اقلب الستيك. أضف الزبدة والثوم والأعشاب. اسكب الزبدة المذابة فوق الستيك لمدة ٢-٣ دقائق.",
+  "Remove from pan and let it rest for 5–7 minutes before cutting.": "أخرجه من المقلاة واتركه يرتاح لمدة ٥-٧ دقائق قبل التقطيع.",
+  "Boil potato until soft. Mash with butter, milk, salt, and pepper until creamy.": "اسلق البطاطس حتى تنضج. اهرسها مع الزبدة والحليب والملح والفلفل حتى تصبح كريمية.",
+  "Slice steak or serve whole beside the mashed potatoes. Enjoy!": "قطع الستيك أو قدمه كاملاً بجانب البطاطس المهروسة. استمتع!",
+
   "Family Taco Feast": "وليمة التاكو العائلية",
   "Mixed Mahshi": "مشكل محاشي",
   "Bashamel Macaroni": "مكرونه بشاميل",

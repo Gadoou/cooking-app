@@ -44,18 +44,32 @@ export const MOCK_RECIPES: Recipe[] = [
   {
     id: '3',
     title: 'Steak',
-    overview: 'Premium pan-seared sirloin steak seasoned with sea salt and black pepper, rested for maximum juiciness.',
+    overview: 'Steak with Mashed Potatoes: A perfectly seared sirloin paired with creamy, buttery mashed potatoes.',
     cost: 22.00,
     likes: 2100,
     origin: 'Global',
-    cookingTime: 15,
+    cookingTime: 45,
     dietStyle: 'protein',
     ingredients: [
-      { name: 'Beef', quantity: '300g', price: 18.0, imageName: 'beef', isOwned: false },
-      { name: 'Butter', quantity: '50g', price: 1.5, imageName: 'butter', isOwned: false },
-      { name: 'Garlic', quantity: '2 cloves', price: 0.5, imageName: 'garlic', isOwned: false }
+      { name: 'Steak', quantity: '200g', price: 15.0, imageName: 'beef', isOwned: false },
+      { name: 'Potato', quantity: '1 unit', price: 1.0, imageName: 'potato', isOwned: false },
+      { name: 'Butter', quantity: '2 tbsp', price: 1.0, imageName: 'butter', isOwned: false },
+      { name: 'Milk', quantity: '3 tbsp', price: 0.5, imageName: 'milk', isOwned: false },
+      { name: 'Garlic', quantity: '1 clove', price: 0.2, imageName: 'garlic', isOwned: false },
+      { name: 'Oil', quantity: '1 tbsp', price: 0.3, imageName: 'oil', isOwned: false },
+      { name: 'Salt', quantity: '1 tsp', price: 0.1, imageName: 'salt', isOwned: false },
+      { name: 'Black Pepper', quantity: '1 tsp', price: 0.1, imageName: 'pepper', isOwned: false }
     ],
-    stages: [{ id: 's3', timeNeeded: 10, videoURL: '', textDescription: 'Sear in a hot cast-iron skillet for 4 mins per side, then rest.' }],
+    stages: [
+      { id: 's3-1', timeNeeded: 25, videoURL: '', textDescription: 'Take the steak out of the fridge 20–30 minutes before cooking. Prep all other items.' },
+      { id: 's3-2', timeNeeded: 2, videoURL: '', textDescription: 'Dry the steak very well. Season both sides with salt and black pepper.' },
+      { id: 's3-3', timeNeeded: 3, videoURL: '', textDescription: 'Heat pan on high. Add oil and wait until hot and shiny.' },
+      { id: 's3-4', timeNeeded: 3, videoURL: '', textDescription: 'Place steak in pan. Let sear for 2–3 minutes until it gets a brown crust.' },
+      { id: 's3-5', timeNeeded: 3, videoURL: '', textDescription: 'Flip steak. Add butter, garlic, and herbs. Baste the steak for 2–3 minutes.' },
+      { id: 's3-6', timeNeeded: 7, videoURL: '', textDescription: 'Remove from pan and let it rest for 5–7 minutes before cutting.' },
+      { id: 's3-7', timeNeeded: 20, videoURL: '', textDescription: 'Boil potato until soft. Mash with butter, milk, salt, and pepper until creamy.' },
+      { id: 's3-8', timeNeeded: 2, videoURL: '', textDescription: 'Slice steak or serve whole beside the mashed potatoes. Enjoy!' }
+    ],
     reviews: [],
     isLiked: false,
     image: require('@/assets/images/recipe-3.jpeg')
