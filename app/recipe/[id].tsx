@@ -7,6 +7,7 @@ import { useAppContext } from '@/src/context/AppContext';
 import { usePlanner } from '@/src/context/PlannerContext';
 import { IngredientItem } from '@/src/components/IngredientItem';
 import { AddToPlanModal } from '@/src/components/AddToPlanModal';
+import GuidedCookingModal from '@/src/components/GuidedCookingModal';
 import { MealSlot } from '@/src/types';
 import { useLanguage } from '@/src/context/LanguageContext';
 
@@ -117,7 +118,9 @@ export default function RecipeDetailScreen() {
           <View style={[styles.infoBar, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
             <View style={[styles.infoItem, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
               <Ionicons name="cash-outline" size={20} color="#D4AF37" />
-              <Text style={[styles.infoText, isRTL ? { marginRight: 6 } : { marginLeft: 6 }]}>${(recipe.cost * servingSize).toFixed(2)}</Text>
+              <Text style={[styles.infoText, isRTL ? { marginRight: 6 } : { marginLeft: 6 }]}>
+                {isRTL ? `${(recipe.cost * servingSize).toFixed(2)} ${t('$')}` : `${t('$')}${(recipe.cost * servingSize).toFixed(2)}`}
+              </Text>
             </View>
             <View style={[styles.infoItem, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
               <Ionicons name="timer-outline" size={20} color="#D4AF37" />
@@ -312,7 +315,9 @@ export default function RecipeDetailScreen() {
         <View style={[styles.footer, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
           <View style={[styles.footerInfo, { alignItems: isRTL ? 'flex-end' : 'flex-start' }]}>
             <Text style={styles.totalLabel}>{t('Missing Total:')}</Text>
-            <Text style={styles.totalPrice}>${totalCost.toFixed(2)}</Text>
+            <Text style={styles.totalPrice}>
+              {isRTL ? `${totalCost.toFixed(2)} ${t('$')}` : `${t('$')}${totalCost.toFixed(2)}`}
+            </Text>
           </View>
           <TouchableOpacity style={[styles.orderButton, isRTL ? { marginRight: 15 } : { marginLeft: 15 }]} onPress={handleOrder}>
             <Text style={styles.orderButtonText}>{t('Order Missing Items')}</Text>
@@ -324,6 +329,12 @@ export default function RecipeDetailScreen() {
         visible={isPlanModalVisible}
         onClose={() => setIsPlanModalVisible(false)}
         onConfirm={handleConfirmPlan}
+      />
+
+      <GuidedCookingModal 
+        visible={isGuidedModalVisible}
+        onClose={() => setIsGuidedModalVisible(false)}
+        recipe={recipe}
       />
     </SafeAreaView>
   );

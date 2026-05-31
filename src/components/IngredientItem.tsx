@@ -29,7 +29,9 @@ export const IngredientItem = ({ name, quantity, price, isOwned, onToggle }: Ing
           <Text style={[styles.name, isOwned && styles.strike, { textAlign: isRTL ? 'right' : 'left' }]}>{t(name)}</Text>
           <Text style={[styles.quantity, { textAlign: isRTL ? 'right' : 'left' }]}>{quantity}</Text>
         </View>
-        <Text style={[styles.price, isOwned && styles.strike]}>${price.toFixed(2)}</Text>
+        <Text style={[styles.price, isOwned && styles.strike]}>
+          {isRTL ? `${price.toFixed(2)} ${t('$')}` : `${t('$')}${price.toFixed(2)}`}
+        </Text>
       </View>
     </TouchableOpacity>
   );

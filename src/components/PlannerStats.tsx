@@ -32,7 +32,9 @@ export const PlannerStats = () => {
         <Text style={styles.label}>{t('Meals')}</Text>
       </View>
       <View style={[styles.stat, styles.border]}>
-        <Text style={styles.value}>$ {stats.totalCost.toFixed(2)}</Text>
+        <Text style={styles.value}>
+          {isRTL ? `${stats.totalCost.toFixed(2)} ${t('$')}` : `${t('$')}${stats.totalCost.toFixed(2)}`}
+        </Text>
         <Text style={styles.label}>{t('Total Cost')}</Text>
       </View>
       <View style={styles.stat}>

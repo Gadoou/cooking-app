@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as Speech from 'expo-speech';
+import { Audio } from 'expo-av';
 import { useLanguage } from '@/src/context/LanguageContext';
 import { Recipe, CookingStage } from '@/src/types';
 
@@ -38,10 +39,34 @@ const GuidedCookingModal: React.FC<GuidedCookingModalProps> = ({ visible, onClos
     setCurrentStepIndex(index);
   };
 
-  const handleSpeak = (text: string) => {
-    Speech.speak(t(text), {
-      language: isRTL ? 'ar' : 'en',
-    });
+  const handleSpeak = async (text: string) => {
+    const translatedText = t(text);
+    const langCode = isRTL ? 'ar' : 'en';
+    
+    try {
+      // 1. Get all available voices on the device
+      const voices = await Speech.getAvailableVoicesAsync();
+      
+      // 2. Filter for a voice that matches our language (e.g., 'ar-SA' or 'en-US')
+      const targetVoice = voices.find(v => v.language.startsWith(langCode));
+      
+      console.log(`Using voice: ${targetVoice?.name || 'Default'}`);
+
+      // 3. Stop any current speech
+      await Speech.stop();
+      
+      // 4. Speak using the EXPLICIT voice if found
+      Speech.speak(translatedText, {
+        language: langCode,
+        voice: targetVoice?.identifier, // This is the key fix
+        pitch: 1.0,
+        rate: 0.9,
+        onStart: () => console.log("Audio logic triggered..."),
+        onError: (e) => console.error("Speech error details:", e),
+      });
+    } catch (error) {
+      console.error("Critical speech error:", error);
+    }
   };
 
   const renderStep = ({ item, index }: { item: CookingStage; index: number }) => {

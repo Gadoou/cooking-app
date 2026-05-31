@@ -170,7 +170,9 @@ export const GroceryListModal: React.FC<GroceryListModalProps> = ({
                   <Text style={styles.itemQuantity}>{item.quantity}</Text>
                 </View>
               </View>
-              <Text style={styles.itemPrice}>${item.price.toFixed(2)}</Text>
+              <Text style={styles.itemPrice}>
+                {isRTL ? `${item.price.toFixed(2)} ${t('$')}` : `${t('$')}${item.price.toFixed(2)}`}
+              </Text>
             </TouchableOpacity>
           )}
           ListEmptyComponent={
@@ -183,7 +185,9 @@ export const GroceryListModal: React.FC<GroceryListModalProps> = ({
         <View style={styles.footer}>
           <View style={[styles.totalRow, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}>
             <Text style={styles.totalLabel}>{t("Total to Buy:")}</Text>
-            <Text style={styles.totalAmount}>${totalPrice.toFixed(2)}</Text>
+            <Text style={styles.totalAmount}>
+              {isRTL ? `${totalPrice.toFixed(2)} ${t('$')}` : `${t('$')}${totalPrice.toFixed(2)}`}
+            </Text>
           </View>
           <TouchableOpacity
             style={[
