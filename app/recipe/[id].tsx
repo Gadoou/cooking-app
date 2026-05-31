@@ -166,7 +166,7 @@ export default function RecipeDetailScreen() {
 
           <View style={styles.section}>
             <Text style={[styles.sectionTitle, { textAlign: isRTL ? 'right' : 'left' }]}>{t('Overview')}</Text>
-            <Text style={[styles.overview, { textAlign: isRTL ? 'right' : 'left' }]}>{recipe.overview}</Text>
+            <Text style={[styles.overview, { textAlign: isRTL ? 'right' : 'left' }]}>{t(recipe.overview)}</Text>
           </View>
 
           {/* Tab Switcher */}
