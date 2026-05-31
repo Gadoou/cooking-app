@@ -232,7 +232,7 @@ export default function RecipeDetailScreen() {
                     <Text style={styles.stepNumberText}>{index + 1}</Text>
                   </View>
                   <View style={[styles.stepContent, { alignItems: isRTL ? 'flex-end' : 'flex-start' }]}>
-                    <Text style={[styles.stepDescription, { textAlign: isRTL ? 'right' : 'left' }]}>{stage.textDescription}</Text>
+                    <Text style={[styles.stepDescription, { textAlign: isRTL ? 'right' : 'left' }]}>{t(stage.textDescription)}</Text>
                     <Text style={styles.stepTime}>{stage.timeNeeded} {t('mins')}</Text>
                   </View>
                 </View>
