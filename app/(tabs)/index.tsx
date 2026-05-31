@@ -47,6 +47,7 @@ export default function HomeScreen() {
 
     // Time Filter
     if (activeFilters.time !== 'any') {
+      if (activeFilters.time === 'quick' && recipe.cookingTime > 45) return false;
       if (activeFilters.time === 'under15' && recipe.cookingTime >= 15) return false;
       if (activeFilters.time === '15-30' && (recipe.cookingTime < 15 || recipe.cookingTime > 30)) return false;
       if (activeFilters.time === 'over45' && recipe.cookingTime <= 45) return false;
@@ -72,7 +73,7 @@ export default function HomeScreen() {
     }
 
     return true;
-  }).sort((a, b) => b.likes - a.likes).slice(0, 4);
+  }).sort((a, b) => b.likes - a.likes);
 
   const handleCategoryPress = (id: string) => {
     if (id === 'custom') {
@@ -80,7 +81,7 @@ export default function HomeScreen() {
     } else if (id === 'all') {
       setActiveFilters(INITIAL_FILTERS);
     } else if (id === 'quick') {
-      setActiveFilters({ ...INITIAL_FILTERS, time: '15-30' });
+      setActiveFilters({ ...INITIAL_FILTERS, time: 'quick' });
     } else if (id === 'cost') {
       setActiveFilters({ ...INITIAL_FILTERS, budget: 'under100' });
     } else if (id === 'group') {
@@ -90,7 +91,7 @@ export default function HomeScreen() {
 
   const isCategoryActive = (id: string) => {
     if (id === 'all') return JSON.stringify(activeFilters) === JSON.stringify(INITIAL_FILTERS);
-    if (id === 'quick') return activeFilters.time === '15-30';
+    if (id === 'quick') return activeFilters.time === 'quick';
     if (id === 'cost') return activeFilters.budget === 'under100';
     if (id === 'group') return activeFilters.diet === 'group';
     return false;

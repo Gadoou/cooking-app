@@ -95,7 +95,7 @@ export default function PlannerScreen() {
               onPress={() => syncActiveDay(index)}
             >
               <Text style={[styles.pillText, activeDayIndex === index && styles.activePillText]}>
-                {t(day).substring(0, 3)}
+                {isRTL ? t(day) : t(day).substring(0, 3)}
               </Text>
             </TouchableOpacity>
           )}
