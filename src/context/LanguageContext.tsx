@@ -127,12 +127,12 @@ const translations: Record<string, string> = {
   "Other help choices": "خيارات مساعدة أخرى",
 
   // Recipes
-  "Spicy Garlic Pasta": "باستا الثوم الحارة",
-  "High Protein Chicken Bowl": "وعاء الدجاج عالي البروتين",
-  "Vegan Quinoa Salad": "سلطة الكينوا النباتية",
+  "Kafta": "كفته",
+  "Thanksgiving Turkey": "ديك رومي",
+  "Steak": "ستيك",
   "Family Taco Feast": "وليمة التاكو العائلية",
-  "Budget Lentil Soup": "شوربة العدس الاقتصادية",
-  "Keto Salmon Steak": "ستيك السلمون كيتو",
+  "Mixed Mahshi": "مشكل محاشي",
+  "Bashamel Macaroni": "مكرونه بشاميل",
 
   // Ingredients
   "Pasta": "باستا",
