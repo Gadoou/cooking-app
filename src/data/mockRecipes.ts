@@ -116,19 +116,33 @@ export const MOCK_RECIPES: Recipe[] = [
   {
     id: '6',
     title: 'Bashamel Macaroni',
-    overview: 'Egyptians quintessential comfort food: penne pasta layered with spiced ground beef and thick, creamy béchamel sauce.',
+    overview: 'Makarona Bashamel: Egyptians quintessential comfort food: penne pasta layered with spiced ground beef and thick, creamy béchamel sauce.',
     cost: 16.50,
     likes: 4500,
     origin: 'Egyptian',
     cookingTime: 75,
     dietStyle: 'group',
     ingredients: [
-      { name: 'Pasta', quantity: '500g', price: 3.0, imageName: 'pasta', isOwned: false },
-      { name: 'Beef', quantity: '400g', price: 7.0, imageName: 'beef', isOwned: false },
-      { name: 'Butter', quantity: '100g', price: 2.0, imageName: 'butter', isOwned: false },
-      { name: 'Onions', quantity: '2 units', price: 1.0, imageName: 'onions', isOwned: false }
+      { name: 'Pasta', quantity: '1 cup', price: 1.0, imageName: 'pasta', isOwned: false },
+      { name: 'Beef', quantity: '120g', price: 6.0, imageName: 'beef', isOwned: false },
+      { name: 'Butter', quantity: '2 tbsp', price: 1.5, imageName: 'butter', isOwned: false },
+      { name: 'Milk', quantity: '1 cup', price: 1.5, imageName: 'milk', isOwned: false },
+      { name: 'Flour', quantity: '1 tbsp', price: 0.2, imageName: 'flour', isOwned: false },
+      { name: 'Tomato Paste', quantity: '1 tbsp', price: 0.5, imageName: 'tomato', isOwned: false },
+      { name: 'Onions', quantity: '0.5 unit', price: 0.3, imageName: 'onions', isOwned: false },
+      { name: 'Mozzarella', quantity: '2 tbsp', price: 1.5, imageName: 'cheese', isOwned: false },
+      { name: 'Spices', quantity: '1 tsp', price: 0.1, imageName: 'spices', isOwned: false }
     ],
-    stages: [{ id: 's6', timeNeeded: 45, videoURL: '', textDescription: 'Layer pasta and meat, cover with béchamel, and bake until golden.' }],
+    stages: [
+      { id: 's6-1', timeNeeded: 10, videoURL: '', textDescription: 'Prepare the pasta, minced beef, onion, tomato paste, milk, flour, butter, and spices. Grease dish.' },
+      { id: 's6-2', timeNeeded: 12, videoURL: '', textDescription: 'Boil the pasta in salted water until it is about 80% cooked. Drain and set aside.' },
+      { id: 's6-3', timeNeeded: 10, videoURL: '', textDescription: 'Sauté onion and brown the beef. Add tomato paste, salt, pepper, and spices. Cook until flavorful.' },
+      { id: 's6-4', timeNeeded: 10, videoURL: '', textDescription: 'Melt butter, whisk in flour, and slowly add milk until creamy and thick. Season with nutmeg.' },
+      { id: 's6-5', timeNeeded: 2, videoURL: '', textDescription: 'Mix the cooked pasta with 2–3 tablespoons of béchamel so it stays creamy.' },
+      { id: 's6-6', timeNeeded: 5, videoURL: '', textDescription: 'Layer half pasta, meat filling, then rest of pasta. Pour remaining béchamel over the top.' },
+      { id: 's6-7', timeNeeded: 25, videoURL: '', textDescription: 'Bake at 200°C for 20–25 minutes until golden brown. Add cheese if desired.' },
+      { id: 's6-8', timeNeeded: 5, videoURL: '', textDescription: 'Let it rest for 5 minutes before eating so the layers hold together. Serve hot.' }
+    ],
     reviews: [{ id: 'r6', user: 'PastaLover', rating: 5, comment: 'The creamy layers are perfect!', date: '2026-05-27' }],
     isLiked: false,
     image: require('@/assets/images/recipe-6.jpeg')

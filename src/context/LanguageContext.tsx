@@ -151,6 +151,29 @@ const translations: Record<string, string> = {
   "Mixed Mahshi": "مشكل محاشي",
   "Bashamel Macaroni": "مكرونه بشاميل",
 
+  // Kafta
+  "Traditional Lebanese-style seasoned ground meat skewers, grilled to perfection with fresh parsley and Middle Eastern spices.": "أسياخ لحم مفروم متبلة على الطريقة اللبنانية التقليدية، مشوية بإتقان مع البقدونس الطازج والبهارات الشرقية.",
+  "Mix ground meat with minced herbs and spices, then grill until charred.": "اخلط اللحم المفروم مع الأعشاب والبهارات المفرومة، ثم اشوِها حتى تنضج.",
+
+  // Turkey
+  "A classic whole roasted turkey with herb butter, garlic, and aromatics. The centerpiece of a festive feast.": "ديك رومي كامل مشوي مع زبدة الأعشاب والثوم والمنكهات. القطعة المركزية لأي وليمة احتفالية.",
+  "Prep the bird with herb butter and roast until internal temp hits 165°F.": "جهز الديك الرومي بزبدة الأعشاب واشوه حتى تصل درجة الحرارة الداخلية إلى ١٦٥ فهرنهايت.",
+
+  // Mahshi
+  "A traditional Egyptian favorite: zucchini, eggplant, and peppers stuffed with a fragrant herb and rice mixture.": "طبق مصري تقليدي محبوب: كوسة وباذنجان وفلفل محشو بخلطة الأرز والأعشاب العطرية.",
+  "Hollow out veggies, stuff with rice mix, and simmer in broth.": "قور الخضار، واحشها بخلطة الأرز، واتركها تنضج في المرق.",
+
+  // Macaroni
+  "Makarona Bashamel: Egyptians quintessential comfort food: penne pasta layered with spiced ground beef and thick, creamy béchamel sauce.": "مكرونة بالبشاميل: الأكلة المصرية المفضلة: طبقات من المكرونة البنّة مع اللحم المفروم المتبل وصلصة البشاميل الغنية والكريمية.",
+  "Prepare the pasta, minced beef, onion, tomato paste, milk, flour, butter, and spices. Grease dish.": "جهز المكرونة، اللحم المفروم، البصل، صلصة الطماطم، الحليب، الدقيق، الزبدة، والبهارات. ادهن الصينية.",
+  "Boil the pasta in salted water until it is about 80% cooked. Drain and set aside.": "اسلق المكرونة في ماء مملح حتى تنضج بنسبة ٨٠٪ تقريباً. صفيها واتركها جانباً.",
+  "Sauté onion and brown the beef. Add tomato paste, salt, pepper, and spices. Cook until flavorful.": "شوح البصل وحمر اللحم. أضف صلصة الطماطم والملح والفلفل والبهارات. اطبخها حتى تفوح رائحتها.",
+  "Melt butter, whisk in flour, and slowly add milk until creamy and thick. Season with nutmeg.": "ذوّب الزبدة، قلب الدقيق، ثم أضف الحليب تدريجياً حتى يصبح القوام كريمياً وكثيفاً. تبل بجوزة الطيب.",
+  "Mix the cooked pasta with 2–3 tablespoons of béchamel so it stays creamy.": "اخلط المكرونة المسلوقة بملعقتين أو ثلاث من البشاميل لتبقى كريمية.",
+  "Layer half pasta, meat filling, then rest of pasta. Pour remaining béchamel over the top.": "ضع طبقة من نصف المكرونة، ثم اللحم، ثم باقي المكرونة. صب باقي البشاميل على الوجه.",
+  "Bake at 200°C for 20–25 minutes until golden brown. Add cheese if desired.": "اخبزها في درجة حرارة ٢٠٠ مئوية لمدة ٢٠-٢٥ دقيقة حتى يحمر الوجه. أضف الجبن حسب الرغبة.",
+  "Let it rest for 5 minutes before eating so the layers hold together. Serve hot.": "اتركها ترتاح لمدة ٥ دقائق قبل التقطيع لتماسك الطبقات. قدمها ساخنة.",
+
   // Ingredients
   "Pasta": "باستا",
   "Garlic": "ثوم",
@@ -169,7 +192,11 @@ const translations: Record<string, string> = {
   "Onions": "بصل",
   "Salmon": "سلمون",
   "Butter": "زبدة",
-  "Asparagus": "هليون"
+  "Asparagus": "هليون",
+  "Tomato Paste": "صلصة طماطم",
+  "Flour": "دقيق",
+  "Mozzarella": "موزاريلا",
+  "Spices": "بهارات"
 };
 
 interface LanguageContextType {
