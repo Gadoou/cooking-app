@@ -24,6 +24,7 @@ export default function RecipeDetailScreen() {
   const [newReview, setNewReview] = useState('');
   const [userRating, setUserRating] = useState(5);
   const [isPlanModalVisible, setIsPlanModalVisible] = useState(false);
+  const [isGuidedModalVisible, setIsGuidedModalVisible] = useState(false);
   const [servingSize, setServingSize] = useState<1 | 2 | 4>(1);
 
   if (!recipe) {
@@ -239,7 +240,7 @@ export default function RecipeDetailScreen() {
               ))}
               <TouchableOpacity 
                 style={[styles.startCookingButton, { flexDirection: isRTL ? 'row-reverse' : 'row' }]}
-                onPress={() => Alert.alert(t("Coming Soon"), t("Full screen cooking mode will be available in Phase 3!"))}
+                onPress={() => setIsGuidedModalVisible(true)}
               >
                 <Ionicons name="play-circle" size={24} color="#fff" />
                 <Text style={[styles.startCookingText, isRTL ? { marginRight: 8 } : { marginLeft: 8 }]}>{t('Start Guided Cooking')}</Text>
